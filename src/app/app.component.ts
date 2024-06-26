@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   template: `
-    <h1 class="text-3xl font-bold underline">Hello World</h1>
+    <h1 class="text-3xl font-bold underline">{{ title }}</h1>
     <button class="btn">Daisy btn</button>
   `,
   styleUrl: './app.component.scss',
