@@ -9,7 +9,8 @@
     "test": "jest",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -32,14 +33,17 @@
     "@cypress/schematic": "^2.5.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.9",
+    "angular-eslint": "18.0.1",
     "autoprefixer": "^10.4.19",
     "cypress": "^13.12.0",
     "daisyui": "^4.12.10",
+    "eslint": "^9.3.0",
     "jest": "^29.7.0",
     "jest-preset-angular": "^14.1.1",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
-    "typescript": "~5.4.2"
+    "typescript": "~5.4.2",
+    "typescript-eslint": "8.0.0-alpha.20"
   },
   "jest": {
     "preset": "jest-preset-angular",
