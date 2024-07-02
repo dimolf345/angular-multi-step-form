@@ -1,16 +1,21 @@
 import { Component } from '@angular/core';
+import { HeaderComponent } from './layout/header/header.component';
+import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-navigation.component';
 import { RouterOutlet } from '@angular/router';
+import { PersonalInfoComponent } from './steps/personal-info/personal-info.component';
+import { StepContainerComponent } from './layout/step-container/step-container.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `
-    <h1 class="text-3xl font-bold underline">{{ title }}</h1>
-    <button class="btn">Daisy btn</button>
-  `,
+  imports: [
+    HeaderComponent,
+    BottomNavigationComponent,
+    RouterOutlet,
+    PersonalInfoComponent,
+    StepContainerComponent,
+  ],
+  templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'angular-multi-step-form';
-}
+export class AppComponent {}
