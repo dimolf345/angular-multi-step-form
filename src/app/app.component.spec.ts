@@ -3,6 +3,8 @@ import { AppComponent } from './app.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HeaderComponent } from './layout/header/header.component';
+import { StepContainerComponent } from './layout/step-container/step-container.component';
+import { RouterOutlet } from '@angular/router';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -32,5 +34,13 @@ describe('AppComponent', () => {
     const main = template.query(By.css('main'));
     expect(main).toBeTruthy();
     expect(main.children.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('should display a step wrapper that injects the router outlet', () => {
+    const stepContainer = template.query(By.directive(StepContainerComponent));
+    expect(stepContainer).toBeTruthy();
+    expect(stepContainer.children).toHaveLength(1);
+    const outlet = stepContainer.query(By.directive(RouterOutlet));
+    expect(outlet).toBeTruthy();
   });
 });

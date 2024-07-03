@@ -3,5 +3,5 @@
 }
 
 main {
-  @apply grow flex flex-col justify-between md:px-[10%];
+  @apply grow flex flex-col justify-between md:px-[10%] bg-background md:bg-white;
 }
