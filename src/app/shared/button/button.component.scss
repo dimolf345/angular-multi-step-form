@@ -1,0 +1,15 @@
+.custom-btn {
+  @apply btn font-medium text-sm py-2 px-4 h-max min-h-0 min-w-24 sm:py-3 sm:px-6 sm:text-base;
+}
+
+.primary {
+  @apply btn-primary text-white;
+}
+
+.outlined {
+  @apply btn-secondary btn-ghost text-secondary hover:text-primary;
+}
+
+.accent {
+  @apply btn-accent text-white;
+}
