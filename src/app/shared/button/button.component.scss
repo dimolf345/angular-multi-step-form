@@ -13,3 +13,11 @@
 .accent {
   @apply btn-accent text-white;
 }
+
+.circle {
+  @apply btn-circle bg-transparent text-white border-white p-0  min-w-0 hover:bg-skyblue hover:text-primary hover:border-skyblue;
+}
+
+.circle.active {
+  @apply bg-skyblue text-primary border-skyblue;
+}

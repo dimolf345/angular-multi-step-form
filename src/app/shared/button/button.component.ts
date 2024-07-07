@@ -24,7 +24,7 @@ export class ButtonComponent implements OnInit {
 
   #renderer2 = inject(Renderer2);
   #elementRef = inject(ElementRef);
-  #availableVariants = ['primary', 'outlined', 'accent'];
+  #availableVariants = ['primary', 'outlined', 'accent', 'circle'];
 
   @HostBinding('class') baseClass = 'custom-btn';
 
