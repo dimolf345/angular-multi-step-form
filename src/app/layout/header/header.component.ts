@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-header',
   standalone: true,
   imports: [],
-  template: ` <nav></nav> `,
+  template: ` <nav class="nav bg-desktop"></nav> `,
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {}

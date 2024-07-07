@@ -5,6 +5,9 @@
   "exclude": ["cypress/**/*.ts", "cypress.config.ts"],
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@utils/*": ["./src/utils/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
