@@ -2,7 +2,7 @@ import { fakeAsync, TestBed } from '@angular/core/testing';
 
 import { MediaMatcherService } from '../media-matcher.service';
 import { Observable } from 'rxjs';
-import '../../../../utils/match-media.mock';
+import '../../../../utils/mocks/match-media.mock';
 
 describe('MediaMatcherService', () => {
   let service: MediaMatcherService;

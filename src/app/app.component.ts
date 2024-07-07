@@ -4,6 +4,7 @@ import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-nav
 import { RouterOutlet } from '@angular/router';
 import { PersonalInfoComponent } from './steps/personal-info/personal-info.component';
 import { StepContainerComponent } from './layout/step-container/step-container.component';
+import { ILink, LINKS } from './core/models/link.model';
 
 @Component({
   selector: 'app-root',
@@ -18,4 +19,6 @@ import { StepContainerComponent } from './layout/step-container/step-container.c
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {}
+export class AppComponent {
+  steps: ILink[] = LINKS;
+}
