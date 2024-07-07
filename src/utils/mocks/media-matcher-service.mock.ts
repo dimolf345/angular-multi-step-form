@@ -1,5 +1,9 @@
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
+const mockMediaQuery = new BehaviorSubject<boolean>(true);
 
 export const mockMediaMatcherService = {
-  mediaQuery: () => of(true),
+  switchView: (view: 'desktop' | 'mobile') =>
+    mockMediaQuery.next(view === 'mobile'),
+  mediaQuery: jest.fn().mockReturnValue(mockMediaQuery),
 };
