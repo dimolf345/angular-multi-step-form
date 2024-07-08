@@ -15,13 +15,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       <ul class="h-full py-8">
         @for (link of links(); track link.route; ) {
         <app-link-item
-          [routerLink]="link.route"
           [link]="link"
           [stepNumber]="$index + 1"
           [showFullText]="!isMobile()"
+          [isActive]="rla.isActive"
+          [routerLink]="link.route"
           routerLinkActive
           #rla="routerLinkActive"
-          [isActive]="rla.isActive"
         />
         }
       </ul>

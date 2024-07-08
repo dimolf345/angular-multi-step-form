@@ -14,20 +14,17 @@ import { ButtonComponent } from '../button/button.component';
       (mouseenter)="isHovering = true"
       (mouseleave)="isHovering = false"
     >
-      <button [class.active]="isHovering" custom-btn variant="circle">
+      <button
+        [class.active]="isActive() || isHovering"
+        custom-btn
+        variant="circle"
+      >
         {{ stepNumber() }}
       </button>
 
-      <h3
-        [id]="stepName()"
-        class="inline-flex flex-col"
-        [class.sr-only]="!showFullText()"
-        class="uppercase"
-      >
-        <span class="block text-lightblue text-xs"
-          >Step {{ stepNumber() }}
-        </span>
-        <span class="block font-medium text-white">{{ link().label }}</span>
+      <h3 [id]="stepName()" class="link-text" [class.sr-only]="!showFullText()">
+        <span class="step-text">Step {{ stepNumber() }} </span>
+        <span class="step-name">{{ link().label }}</span>
       </h3>
     </li>
   `,

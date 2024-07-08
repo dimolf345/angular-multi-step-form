@@ -1,3 +1,15 @@
 .step-link {
   @apply flex gap-4 items-center max-h-8 my-4 px-4 cursor-pointer;
 }
+
+.link-text {
+  @apply inline-flex flex-col uppercase;
+}
+
+.step-text {
+  @apply block text-lightblue text-xs;
+}
+
+.step-name {
+  @apply block font-medium text-white;
+}
