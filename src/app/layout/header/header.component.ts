@@ -12,7 +12,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [NgClass, LinkItemComponent, RouterLink, RouterLinkActive],
   template: `
     <nav class="nav" [style.background-image]="bgImage()">
-      <ul class="h-full py-8">
+      <ul class="horizontal-list" [class.vertical-list]="!isMobile()">
         @for (link of links(); track link.route; ) {
         <app-link-item
           [link]="link"
