@@ -1,3 +1,15 @@
 :host {
-  @apply bg-slate-600 md:w-1/3 h-44 md:h-auto md:max-w-[272px] md:rounded;
+  @apply md:w-1/3 h-44 md:h-auto md:max-w-[272px] md:rounded border;
+}
+
+.nav {
+  @apply bg-center bg-cover bg-no-repeat h-full;
+}
+
+.horizontal-list {
+  @apply flex justify-between max-w-max mx-auto py-8;
+}
+
+.vertical-list {
+  @apply flex-col justify-normal h-full py-10 px-6 mx-0;
 }

@@ -5,6 +5,8 @@ import { By } from '@angular/platform-browser';
 import { HeaderComponent } from './layout/header/header.component';
 import { StepContainerComponent } from './layout/step-container/step-container.component';
 import { RouterOutlet } from '@angular/router';
+import { mockMediaMatcherService } from '../utils/mocks/media-matcher-service.mock';
+import { MediaMatcherService } from './core/services/media-matcher.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,6 +16,9 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: MediaMatcherService, useValue: mockMediaMatcherService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

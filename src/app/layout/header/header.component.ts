@@ -1,16 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
+import { MediaMatcherService } from '../../core/services/media-matcher.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NgClass } from '@angular/common';
+import { ILink } from '../../core/models/link.model';
+import { LinkItemComponent } from '../../shared/link-item/link-item.component';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [NgClass, LinkItemComponent, RouterLink, RouterLinkActive],
   template: `
-    <p>
-      header works!
-    </p>
+    <nav class="nav" [style.background-image]="bgImage()">
+      <ul class="horizontal-list" [class.vertical-list]="!isMobile()">
+        @for (link of links(); track link.route; ) {
+        <app-link-item
+          [link]="link"
+          [stepNumber]="$index + 1"
+          [showFullText]="!isMobile()"
+          [isActive]="rla.isActive"
+          [routerLink]="link.route"
+          routerLinkActive
+          #rla="routerLinkActive"
+        />
+        }
+      </ul>
+    </nav>
   `,
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  #mediaService = inject(MediaMatcherService);
 
+  isMobile = toSignal(this.#mediaService.mediaQuery('max', 'sm'), {
+    initialValue: true,
+  });
+
+  bgImage = computed(() => {
+    const imageType = this.isMobile() ? 'mobile' : 'desktop';
+    return `url("../../../assets/images/bg-sidebar-${imageType}.svg")`;
+  });
+
+  links = input.required<ILink[]>();
 }
