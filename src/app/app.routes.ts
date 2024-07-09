@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { PersonalInfoComponent } from './steps/personal-info/personal-info.component';
+import { SelectPlanComponent } from './steps/select-plan/select-plan.component';
+import { AddOnsComponent } from './steps/add-ons/add-ons.component';
+import { SummaryComponent } from './steps/summary/summary.component';
 
 export const routes: Routes = [
   {
@@ -10,17 +13,21 @@ export const routes: Routes = [
   {
     path: 'personal-info',
     component: PersonalInfoComponent,
-    data: { stepName: 'personal-info' },
+    data: { stepNumber: 1 },
   },
   {
     path: 'plan',
-    component: PersonalInfoComponent,
-    data: { stepName: 'plan' },
+    component: SelectPlanComponent,
+    data: { stepNumber: 2 },
   },
   {
     path: 'add-ons',
-    component: PersonalInfoComponent,
-    data: { stepName: 'addons' },
+    component: AddOnsComponent,
+    data: { stepNumber: 3 },
   },
-  { path: 'summary', component: PersonalInfoComponent },
+  {
+    path: 'summary',
+    component: SummaryComponent,
+    data: { stepNumber: 4 },
+  },
 ];
