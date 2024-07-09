@@ -1,6 +1,6 @@
 <app-header [links]="steps" />
 <main>
-  <app-step-container>
+  <app-step-container [@routeAnimation]="getRouteAnimationState()">
     <router-outlet></router-outlet>
   </app-step-container>
   <app-bottom-navigation />
