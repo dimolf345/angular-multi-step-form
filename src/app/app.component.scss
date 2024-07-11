@@ -3,5 +3,9 @@
 }
 
 main {
+  @apply w-full h-full flex flex-col;
+}
+
+form {
   @apply grow flex flex-col justify-between md:px-[10%] bg-background md:bg-white;
 }
