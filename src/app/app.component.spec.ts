@@ -4,9 +4,13 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HeaderComponent } from './layout/header/header.component';
 import { StepContainerComponent } from './layout/step-container/step-container.component';
-import { RouterOutlet } from '@angular/router';
+import { provideRouter, Router, RouterOutlet } from '@angular/router';
 import { mockMediaMatcherService } from '../utils/mocks/media-matcher-service.mock';
 import { MediaMatcherService } from './core/services/media-matcher.service';
+import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-navigation.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { routes } from './app.routes';
+import { LINKS } from './core/models/link.model';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -18,6 +22,8 @@ describe('AppComponent', () => {
       imports: [AppComponent],
       providers: [
         { provide: MediaMatcherService, useValue: mockMediaMatcherService },
+        provideRouter(routes),
+        provideAnimations(),
       ],
     }).compileComponents();
 
@@ -48,5 +54,29 @@ describe('AppComponent', () => {
     expect(stepContainer.children).toHaveLength(1);
     const outlet = stepContainer.query(By.directive(RouterOutlet));
     expect(outlet).toBeTruthy();
+  });
+
+  it('should display the bottom navigation component to handle the change the step', () => {
+    const bottomNavigation = template.query(
+      By.directive(BottomNavigationComponent)
+    );
+    expect(bottomNavigation).toBeTruthy();
+  });
+
+  it('should change the step if the event from the bottom navigation is triggered', () => {
+    const router = TestBed.inject(Router);
+    jest.spyOn(router, 'navigate');
+    jest.spyOn(component, 'goToStep');
+    const bottomNavigation = template.query(
+      By.directive(BottomNavigationComponent)
+    );
+    (
+      bottomNavigation.componentInstance as BottomNavigationComponent
+    ).stepChanged.emit(2);
+
+    expect(component.goToStep).toHaveBeenCalledWith(2);
+    fixture.detectChanges();
+    const expectedRoute = LINKS[1].route;
+    expect(router.navigate).toHaveBeenCalledWith([expectedRoute]);
   });
 });
