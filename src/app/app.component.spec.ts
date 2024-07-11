@@ -35,10 +35,11 @@ describe('AppComponent', () => {
     expect(appHeader).toBeTruthy();
   });
 
-  it('should display a main component for wrapping all the rest of the app', () => {
+  it('should wrap the multi-step form', () => {
     const main = template.query(By.css('main'));
     expect(main).toBeTruthy();
-    expect(main.children.length).toBeGreaterThanOrEqual(2);
+    const form = main.query(By.css('form'));
+    expect(form).toBeTruthy();
   });
 
   it('should display a step wrapper that injects the router outlet', () => {
