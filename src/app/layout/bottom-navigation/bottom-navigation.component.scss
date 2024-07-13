@@ -1,3 +1,7 @@
 :host {
-  @apply mt-auto;
+  @apply mt-auto bg-white;
+}
+
+.bottom-nav {
+  @apply flex flex-row-reverse justify-between p-4;
 }

@@ -11,7 +11,7 @@
 }
 
 .accent {
-  @apply btn-accent text-white;
+  @apply btn-accent text-white disabled:bg-accent disabled:text-gray-200 disabled:opacity-75;
 }
 
 .circle {
