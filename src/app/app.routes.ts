@@ -13,17 +13,17 @@ export const routes: Routes = [
   {
     path: 'personal-info',
     component: PersonalInfoComponent,
-    data: { stepNumber: 1 },
+    data: { stepNumber: 1, stepFormGroup: 'personalInfo' },
   },
   {
     path: 'plan',
     component: SelectPlanComponent,
-    data: { stepNumber: 2 },
+    data: { stepNumber: 2, stepFormGroup: 'plan' },
   },
   {
     path: 'add-ons',
     component: AddOnsComponent,
-    data: { stepNumber: 3 },
+    data: { stepNumber: 3, stepFormGroup: 'addons' },
   },
   {
     path: 'summary',
