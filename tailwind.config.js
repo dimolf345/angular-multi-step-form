@@ -16,12 +16,6 @@ module.exports = {
         skyblue: "#bee2fd",
         lightgrey: "#f8f9ff",
       },
-      gridTemplateColumns: {
-        "form-layout-col": "minmax(min-content, 275px) minmax(400px, 2fr)",
-      },
-      gridTemplateRows: {
-        "form-layout-rows": "1fr min-content",
-      },
     },
   },
   plugins: [require("daisyui")],
