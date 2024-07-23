@@ -30,13 +30,12 @@ export class AppComponent {
   activeStep!: number;
 
   getRouteAnimationState() {
-    const activeStep =
+    this.activeStep =
       this.routerOutlet &&
       this.routerOutlet.activatedRouteData &&
       this.routerOutlet.activatedRouteData['stepNumber'];
 
-    this.activeStep = activeStep;
-    return activeStep;
+    return this.activeStep;
   }
 
   goToStep(stepNumber: number) {
