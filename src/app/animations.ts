@@ -16,7 +16,7 @@ const fadeInRight: AnimationMetadata[] = [
     query(
       ':enter',
       [
-        style({ transform: 'translateX(-25%)', opacity: 0, zIndex: -1 }),
+        style({ transform: 'translateX(25%)', opacity: 0, zIndex: -1 }),
         animate(
           '.3s ease-out',
           style({ transform: 'translateX(0%)', opacity: 1, zIndex: 1 })
@@ -26,16 +26,9 @@ const fadeInRight: AnimationMetadata[] = [
         optional: true,
       }
     ),
-    query(
-      ':leave',
-      [
-        style({ transform: 'translateX(0%)' }),
-        animate('.3s ease-out', style({ transform: 'translateX(100%)' })),
-      ],
-      {
-        optional: true,
-      }
-    ),
+    query(':leave', [style({ transform: 'translateX(0%)', opacity: 0 })], {
+      optional: true,
+    }),
   ]),
 ];
 
@@ -47,31 +40,16 @@ const fadeInLeft: AnimationMetadata[] = [
     query(
       ':enter',
       [
-        style({ transform: 'translateX(100%)' }),
+        style({ transform: 'translateX(-25%)' }),
         animate('.3s ease-out', style({ transform: 'translateX(0%)' })),
       ],
       {
         optional: true,
       }
     ),
-    query(
-      ':leave',
-      [
-        style({
-          transform: 'translateX(0%)',
-          zIndex: 1,
-          opacity: 0.75,
-          backgroundColor: 'transparent',
-        }),
-        animate(
-          '.3s ease-out',
-          style({ transform: 'translateX(-25%)', zIndex: -1, opacity: 0 })
-        ),
-      ],
-      {
-        optional: true,
-      }
-    ),
+    query(':leave', [style({ opacity: 0.0 })], {
+      optional: true,
+    }),
   ]),
 ];
 
