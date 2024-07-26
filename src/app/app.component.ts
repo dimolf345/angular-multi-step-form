@@ -1,4 +1,10 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { HeaderComponent } from './layout/header/header.component';
 import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-navigation.component';
 import { Router, RouterOutlet } from '@angular/router';
@@ -20,14 +26,20 @@ import { ROUTE_ANIMATIONS } from './animations';
   animations: [ROUTE_ANIMATIONS],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   @ViewChild(RouterOutlet) routerOutlet!: RouterOutlet;
 
   #router = inject(Router);
 
   steps: ILink[] = LINKS;
   activeStep!: number;
+  activeStepName!: string;
+
+  ngAfterViewInit(): void {
+    this.activeStepName = this.steps[this.activeStep]?.label;
+  }
 
   getRouteAnimationState() {
     this.activeStep =
