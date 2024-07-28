@@ -13,6 +13,8 @@ import { StepContainerComponent } from './layout/step-container/step-container.c
 import { ILink, LINKS } from './core/models/link.model';
 import { ROUTE_ANIMATIONS } from './animations';
 import { filter, tap } from 'rxjs';
+import { FormStep } from './core/models/form.model';
+import { StepHeadingComponent } from './shared/step-heading/step-heading.component';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,7 @@ import { filter, tap } from 'rxjs';
     RouterOutlet,
     PersonalInfoComponent,
     StepContainerComponent,
+    StepHeadingComponent,
   ],
   animations: [ROUTE_ANIMATIONS],
   templateUrl: './app.component.html',
@@ -35,18 +38,18 @@ export class AppComponent implements OnInit {
   #router = inject(Router);
 
   steps: ILink[] = LINKS;
+
   activeStep!: number;
-  activeStepName!: string;
+  activeStepName!: FormStep;
 
   ngOnInit(): void {
     this.#router.events
       .pipe(
         filter((nav) => nav instanceof NavigationEnd),
         tap(() => {
-          const { stepNumber, stepFormGroup } =
-            this.routerOutlet.activatedRouteData;
+          const { stepNumber, stepName } = this.routerOutlet.activatedRouteData;
           this.activeStep = stepNumber;
-          this.activeStepName = stepFormGroup;
+          this.activeStepName = stepName;
         })
       )
       .subscribe();

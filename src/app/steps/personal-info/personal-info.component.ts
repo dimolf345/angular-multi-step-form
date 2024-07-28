@@ -2,25 +2,32 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { FormService } from '../../core/services/form.service';
 import { FormGroup } from '@angular/forms';
 import { FormStep, IpersonalInfo } from '../../core/models/form.model';
+import { StepHeadingComponent } from '../../shared/step-heading/step-heading.component';
+import {
+  IHeaderText,
+  STEP_HEADERS,
+} from '../../shared/step-heading/steps-headers';
 
 @Component({
   selector: 'app-personal-info',
   standalone: true,
-  imports: [],
-  template: ` <p>personal-info works!</p> `,
+  imports: [StepHeadingComponent],
+  template: ` <app-step-heading [headerText]="stepInfo" /> `,
   styleUrl: './personal-info.component.scss',
 })
 export class PersonalInfoComponent implements OnInit {
   #formService = inject(FormService);
-  stepFormGroup = input<FormStep>();
-
   form!: FormGroup<IpersonalInfo>;
+  stepName = input<FormStep>();
+  stepInfo!: IHeaderText;
 
   ngOnInit(): void {
-    if (this.stepFormGroup()) {
+    if (this.stepName()) {
       this.form = this.#formService.getStep<FormGroup<IpersonalInfo>>(
-        this.stepFormGroup()!
+        this.stepName()!
       );
+
+      this.stepInfo = STEP_HEADERS[this.stepName()!];
     }
   }
 }

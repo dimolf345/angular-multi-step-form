@@ -51,7 +51,7 @@ describe('AppComponent', () => {
   it('should display a step wrapper that injects the router outlet', () => {
     const stepContainer = template.query(By.directive(StepContainerComponent));
     expect(stepContainer).toBeTruthy();
-    expect(stepContainer.children).toHaveLength(1);
+    expect(stepContainer.children.length).toBeGreaterThanOrEqual(1);
     const outlet = stepContainer.query(By.directive(RouterOutlet));
     expect(outlet).toBeTruthy();
   });

@@ -13,21 +13,21 @@ export const routes: Routes = [
   {
     path: 'personal-info',
     component: PersonalInfoComponent,
-    data: { stepNumber: 1, stepFormGroup: 'personalInfo' },
+    data: { stepNumber: 1, stepName: 'personalInfo' },
   },
   {
     path: 'plan',
     component: SelectPlanComponent,
-    data: { stepNumber: 2, stepFormGroup: 'plan' },
+    data: { stepNumber: 2, stepName: 'plan' },
   },
   {
     path: 'add-ons',
     component: AddOnsComponent,
-    data: { stepNumber: 3, stepFormGroup: 'addons' },
+    data: { stepNumber: 3, stepName: 'addons' },
   },
   {
     path: 'summary',
     component: SummaryComponent,
-    data: { stepNumber: 4 },
+    data: { stepNumber: 4, stepName: 'summary' },
   },
 ];

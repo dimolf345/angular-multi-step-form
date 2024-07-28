@@ -23,8 +23,10 @@ export const STEP_HEADERS: StepInfo = {
 export const APP_STEPS_INFO = new InjectionToken('APP_STEPS_INFO');
 
 export type StepInfo = {
-  [key in FormStep | 'summary']: {
-    title: string;
-    subtitle: string;
-  };
+  [key in FormStep | 'summary']: IHeaderText;
 };
+
+export interface IHeaderText {
+  title: string;
+  subtitle: string;
+}

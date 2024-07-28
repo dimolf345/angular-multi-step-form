@@ -1,9 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 
+const round = (num) =>
+  num
+    .toFixed(7)
+    .replace(/(\.[0-9]+?)0+$/, "$1")
+    .replace(/\.0$/, "");
+const rem = (px) => `${round(px / 16)}rem`;
+
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
     extend: {
+      fontSize: {
+        headingDesktop: "2rem",
+        headingMobile: "1.5rem",
+      },
       colors: {
         primary: "#022959",
         secondary: "#9699aa",
@@ -16,9 +27,32 @@ module.exports = {
         skyblue: "#bee2fd",
         lightgrey: "#f8f9ff",
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            //Heading
+            h1: {
+              fontSize: theme("fontSize.headingMobile"),
+              marginBottom: "0.5rem",
+              color: theme("colors.primary"),
+              "@screen sm": {
+                fontSize: theme("fontSize.headingDesktop"),
+                marginBottom: "0.75rem",
+              },
+            },
+            //Paragraph
+            p: {
+              color: theme("colors.secondary"),
+              marginTop: 0,
+              fontSize: "1rem",
+            },
+            //
+          },
+        },
+      }),
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     themes: [
       {
