@@ -1,7 +1,7 @@
 <app-header [links]="steps" />
 <main>
-  <form>
-    <app-step-container [@routeAnimation]="getRouteAnimationState()">
+  <form [attr.aria-label]="activeStepName">
+    <app-step-container [@routeAnimation]="activeStep">
       <router-outlet></router-outlet>
     </app-step-container>
     <app-bottom-navigation 

@@ -1,17 +1,18 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { HeaderComponent } from './layout/header/header.component';
 import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-navigation.component';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { PersonalInfoComponent } from './steps/personal-info/personal-info.component';
 import { StepContainerComponent } from './layout/step-container/step-container.component';
 import { ILink, LINKS } from './core/models/link.model';
 import { ROUTE_ANIMATIONS } from './animations';
+import { filter, tap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,7 @@ import { ROUTE_ANIMATIONS } from './animations';
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
   @ViewChild(RouterOutlet) routerOutlet!: RouterOutlet;
 
   #router = inject(Router);
@@ -37,17 +38,18 @@ export class AppComponent implements AfterViewInit {
   activeStep!: number;
   activeStepName!: string;
 
-  ngAfterViewInit(): void {
-    this.activeStepName = this.steps[this.activeStep]?.label;
-  }
-
-  getRouteAnimationState() {
-    this.activeStep =
-      this.routerOutlet &&
-      this.routerOutlet.activatedRouteData &&
-      this.routerOutlet.activatedRouteData['stepNumber'];
-
-    return this.activeStep;
+  ngOnInit(): void {
+    this.#router.events
+      .pipe(
+        filter((nav) => nav instanceof NavigationEnd),
+        tap(() => {
+          const { stepNumber, stepFormGroup } =
+            this.routerOutlet.activatedRouteData;
+          this.activeStep = stepNumber;
+          this.activeStepName = stepFormGroup;
+        })
+      )
+      .subscribe();
   }
 
   goToStep(stepNumber: number) {
