@@ -7,12 +7,13 @@ import {
   IHeaderText,
   STEP_HEADERS,
 } from '../../shared/step-heading/steps-headers';
+import { InputComponent } from '../../shared/input/input.component';
 
 @Component({
   selector: 'app-personal-info',
   standalone: true,
-  imports: [StepHeadingComponent],
-  template: ` <app-step-heading [headerText]="stepInfo" /> `,
+  imports: [StepHeadingComponent, InputComponent],
+  templateUrl: './personal-info.component.html',
   styleUrl: './personal-info.component.scss',
 })
 export class PersonalInfoComponent implements OnInit {
