@@ -1,8 +1,8 @@
 <app-header [links]="steps" />
 <main>
-  <form>
-    <app-step-container [@routeAnimation]="getRouteAnimationState()">
-      <router-outlet></router-outlet>
+  <form [attr.aria-label]="activeStepName">
+    <app-step-container [@routeAnimation]="activeStep">
+      <router-outlet />
     </app-step-container>
     <app-bottom-navigation 
       (stepChanged)="goToStep($event)" 
