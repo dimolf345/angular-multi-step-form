@@ -12,3 +12,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+/* --DAISY OVVERIDES-- */
+.label {
+  @apply px-0;
+}

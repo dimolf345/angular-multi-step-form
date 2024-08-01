@@ -45,8 +45,15 @@ module.exports = {
               color: theme("colors.secondary"),
               marginTop: 0,
               fontSize: "1rem",
+              lineHeight: "25px",
             },
             //
+            label: {
+              fontSize: "0.75rem",
+              "@screen sm": {
+                fontSize: "0.875rem",
+              },
+            },
           },
         },
       }),
