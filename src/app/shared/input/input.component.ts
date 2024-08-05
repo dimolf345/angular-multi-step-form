@@ -7,6 +7,7 @@ import {
   ElementRef,
   HostAttributeToken,
   inject,
+  Renderer2,
 } from '@angular/core';
 
 @Component({
@@ -17,22 +18,24 @@ import {
     <label data-testId="input-label" [htmlFor]="inputId()" class="label">{{
       label | titlecase
     }}</label>
-    <ng-content></ng-content>
+    <ng-content select="input"></ng-content>
   </div>`,
   styleUrl: './input.component.scss',
 })
 export class InputComponent implements AfterContentInit {
+  #renderer2 = inject(Renderer2);
+
   label = inject(new HostAttributeToken('label'), { optional: false });
 
   inputId = computed(() => {
     return this.label.toLocaleLowerCase().replaceAll(/\s/gi, '-');
   });
 
-  inputEl = contentChild('customInput', {
-    read: ElementRef<HTMLInputElement>,
-  });
+  inputEl = contentChild.required<ElementRef<HTMLInputElement>>('customInput');
 
   ngAfterContentInit(): void {
-    console.log(this.inputEl());
+    const { nativeElement } = this.inputEl();
+    this.#renderer2.addClass(nativeElement, 'input');
+    this.#renderer2.addClass(nativeElement, 'input-bordered');
   }
 }

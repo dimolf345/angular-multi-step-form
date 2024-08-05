@@ -1,3 +1,7 @@
 .form-item {
-  @apply form-control w-full max-w-xs;
+  @apply form-control w-full;
+}
+
+:host {
+  @apply block;
 }

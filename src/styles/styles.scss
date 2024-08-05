@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 @import "fonts";
+@import "daysi-overrides";
 
 body {
   height: 100vh;
@@ -11,9 +12,4 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* --DAISY OVVERIDES-- */
-.label {
-  @apply px-0;
 }

@@ -1,0 +1,20 @@
+/* --DAISY OVVERIDES-- */
+.label {
+  @apply px-0 pb-2;
+}
+
+.input {
+  @apply border-opacity-100;
+}
+
+.input-bordered {
+  @apply border-grey border-opacity-100;
+}
+
+.input-bordered:focus {
+  @apply border-transparent;
+}
+
+.input:focus {
+  @apply outline-accent outline-offset-0 outline-1;
+}

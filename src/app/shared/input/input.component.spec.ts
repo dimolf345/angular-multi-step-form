@@ -3,15 +3,23 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InputComponent } from './input.component';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  imports: [InputComponent],
+  imports: [InputComponent, ReactiveFormsModule],
   standalone: true,
-  template: ` <app-input label="input label"></app-input> `,
+  template: `
+    <app-input label="input label">
+      <input #customInput [formControl]="inputControl" />
+      <p data-testId="other">Some other content</p>
+    </app-input>
+  `,
 })
-class ValidInputComponent {}
+class ValidInputComponent {
+  inputControl = new FormControl<string>('test');
+}
 
-describe.skip('Valid Input', () => {
+describe('Valid Input', () => {
   let component: ValidInputComponent;
   let fixture: ComponentFixture<ValidInputComponent>;
   let template: DebugElement;
@@ -37,5 +45,22 @@ describe.skip('Valid Input', () => {
     const label = template.query(By.css('[data-testId="input-label"]'));
     expect(label).toBeTruthy();
     expect(label.nativeElement);
+  });
+
+  it('should inject the input element', () => {
+    const inputEl = template.query(By.css('input'));
+    expect(inputEl).toBeTruthy();
+    expect(inputEl.nativeElement).toBeInTheDocument();
+  });
+
+  it('should not inject other elements', () => {
+    const otherEl = template.query(By.css('[data-testId="other"]'));
+    expect(otherEl).toBeFalsy();
+  });
+
+  it('should reflect the correct value for the input', () => {
+    const inputEl = template.query(By.css('input'))
+      .nativeElement as HTMLInputElement;
+    expect(inputEl).toHaveValue(component.inputControl.value);
   });
 });
