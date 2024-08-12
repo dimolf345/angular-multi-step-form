@@ -21,11 +21,12 @@ module.exports = {
         accent: "#483eff",
         background: "#eff5ff",
         lightblue: "#abbcff",
-        lightgrey: "#d6d9e6",
+        grey: "#d6d9e6",
         orange: "#ffaf7e",
         pink: "#f9818e",
         skyblue: "#bee2fd",
         lightgrey: "#f8f9ff",
+        error: "#EE374A",
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -45,8 +46,16 @@ module.exports = {
               color: theme("colors.secondary"),
               marginTop: 0,
               fontSize: "1rem",
+              lineHeight: "25px",
             },
             //
+            label: {
+              fontSize: "0.75rem",
+              color: theme("colors.primary"),
+              "@screen sm": {
+                fontSize: "0.875rem",
+              },
+            },
           },
         },
       }),

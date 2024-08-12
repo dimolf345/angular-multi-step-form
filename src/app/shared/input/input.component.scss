@@ -1,0 +1,11 @@
+.form-item {
+  @apply form-control w-full;
+}
+
+:host {
+  @apply block;
+}
+
+.error-message {
+  @apply text-error font-medium text-sm;
+}

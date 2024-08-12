@@ -1,0 +1,45 @@
+/* --DAISY OVVERIDES-- */
+.label {
+  @apply px-0 pb-2;
+}
+
+.input,
+.input:focus,
+.input:focus-within {
+  @apply outline-offset-0 outline-2;
+}
+
+.input {
+  @apply border-opacity-100 border-grey;
+}
+
+.input:focus:not(.input-invalid),
+.input:focus-within:not(.input-invalid) {
+  @apply outline-accent border-transparent;
+}
+
+.input:focus:has(.input-invalid),
+.input:focus-within:has(.input-invalid) {
+  @apply outline-error;
+}
+
+.input.input-invalid {
+  @apply border-error outline-error;
+}
+
+// .input-bordered {
+//   @apply border-grey border-opacity-100;
+// }
+
+// .input:focus:not(.input-invalid),
+// .input:focus-within:not(.input-invalid) {
+//   @apply outline-accent;
+// }
+
+// .input.input-invalid {
+//   @apply outline-error;
+// }
+
+// .input.input-invalid:focus-within {
+//   @apply outline-none;
+// }
