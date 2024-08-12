@@ -5,3 +5,7 @@
 :host {
   @apply block;
 }
+
+.error-message {
+  @apply text-error font-medium text-sm;
+}
