@@ -1,4 +1,6 @@
 <ng-container [formGroup]="formtest">
   <app-step-heading [headerText]="stepInfo" /> 
-  <app-input label="name" errorMessages="fuck you" formControlName="test" />
+  <app-input class="mb-4 md:mb-6" label="name" placeholder="e.g. Stephen King" />
+  <app-input class="mb-4 md:mb-6"  label="email address" placeholder="e.g. stephenking@lore.com" />
+  <app-input label="phone number" placeholder="e.g. +1 234 567 890" />
 </ng-container>

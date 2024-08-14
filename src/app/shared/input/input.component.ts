@@ -18,6 +18,7 @@ import {
   NG_VALUE_ACCESSOR,
   NgControl,
   ValidationErrors,
+  Validators,
 } from '@angular/forms';
 import { debounceTime, filter, map, tap } from 'rxjs';
 
@@ -28,7 +29,7 @@ import { debounceTime, filter, map, tap } from 'rxjs';
   template: ` <div class="form-item ">
     <div class="flex justify-between items-center prose">
       <label data-testId="input-label" [htmlFor]="inputId()" class="label">{{
-        label | titlecase
+        formattedLabel()
       }}</label>
       @if(errorText()) {
       <span data-testId="error-message" class="error-message">{{
@@ -43,6 +44,7 @@ import { debounceTime, filter, map, tap } from 'rxjs';
       class="input input-bordered"
       [class.input-invalid]="isInvalid"
       [value]="value"
+      [placeholder]="placeholder()"
       [disabled]="disabled"
       (input)="valueChange($event)"
       (blur)="markAsTouched()"
@@ -55,11 +57,13 @@ import { debounceTime, filter, map, tap } from 'rxjs';
       useExisting: forwardRef(() => InputComponent),
       multi: true,
     },
+    TitleCasePipe,
   ],
 })
 export class InputComponent implements ControlValueAccessor, AfterViewInit {
   /* PRIVATE */
   readonly #acceptedTpes = ['email', 'text', 'password'];
+  readonly #titleCase = inject(TitleCasePipe);
   #injector = inject(Injector);
   #inputControl: AbstractControl | null = null;
   #destroyRef = inject(DestroyRef);
@@ -68,10 +72,13 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
   label = inject(new HostAttributeToken('label'), { optional: false });
   type = inject(new HostAttributeToken('type'), { optional: true });
   cssClasses = input<string[]>([]);
+  placeholder = input<string>();
   errorMessages = input<string | { [key in string]: string }>();
 
   /*PROPERTIES */
   errorText = signal('');
+
+  formattedLabel = signal(this.#titleCase.transform(this.label));
 
   inputType = computed(() => {
     if (!this.type || !this.#acceptedTpes.includes(this.type)) {
@@ -128,6 +135,10 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
   ngAfterViewInit(): void {
     try {
       this.#inputControl = this.#injector.get(NgControl)?.control;
+
+      if (this.#inputControl?.hasValidator(Validators.required)) {
+        this.formattedLabel.update((label) => label + '*');
+      }
 
       this.#inputControl?.statusChanges
         .pipe(
