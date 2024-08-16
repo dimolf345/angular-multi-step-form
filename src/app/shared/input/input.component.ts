@@ -9,6 +9,7 @@ import {
   inject,
   Injector,
   input,
+  numberAttribute,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -20,7 +21,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { debounceTime, filter, map, tap } from 'rxjs';
+import { debounceTime, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-input',
@@ -38,9 +39,11 @@ import { debounceTime, filter, map, tap } from 'rxjs';
       }
     </div>
     <input
+      [title]="label"
       [ngClass]="cssClasses()"
       [type]="inputType()"
       [id]="inputId()"
+      [name]="inputId()"
       class="input input-bordered"
       [class.input-invalid]="isInvalid"
       [value]="value"
@@ -74,6 +77,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
   cssClasses = input<string[]>([]);
   placeholder = input<string>();
   errorMessages = input<string | { [key in string]: string }>();
+  debounceTime = input(0, { transform: numberAttribute });
 
   /*PROPERTIES */
   errorText = signal('');
@@ -144,8 +148,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
         .pipe(
           takeUntilDestroyed(this.#destroyRef),
           map((s) => s === 'INVALID'),
-          debounceTime(200),
-          filter((isInvalid) => isInvalid !== this.isInvalid),
+          debounceTime(this.debounceTime()),
           tap((isInvalid) => {
             this.isInvalid = isInvalid;
             if (!isInvalid) {

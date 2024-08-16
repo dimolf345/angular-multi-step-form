@@ -9,6 +9,7 @@ import { ISubscriptionItem } from '../models/subscription-item.model';
 export class FormService {
   #fb = inject(FormBuilder);
   readonly #EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  readonly #PHONE_REGEX = /^\+\d(?:\s*\d){9,}$/;
 
   subscriptionForm: FormGroup<ISubscriptionForm> = this.createForm();
 
@@ -32,9 +33,8 @@ export class FormService {
           Validators.pattern(this.#EMAIL_REGEX),
         ]),
         phone: this.#fb.nonNullable.control('', [
-          Validators.minLength(10),
           Validators.required,
-          Validators.pattern(/\d+/),
+          Validators.pattern(this.#PHONE_REGEX),
         ]),
       }),
       plan: this.#fb.group({
