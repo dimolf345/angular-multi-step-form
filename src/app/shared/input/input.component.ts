@@ -47,7 +47,7 @@ import { debounceTime, filter, map, tap } from 'rxjs';
       [placeholder]="placeholder()"
       [disabled]="disabled"
       (input)="valueChange($event)"
-      (blur)="markAsTouched()"
+      (focus)="markAsTouched()"
     />
   </div>`,
   styleUrl: './input.component.scss',
@@ -77,7 +77,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
 
   /*PROPERTIES */
   errorText = signal('');
-
+  singleErrorMessage = computed(() => typeof this.errorMessages() === 'string');
   formattedLabel = signal(this.#titleCase.transform(this.label));
 
   inputType = computed(() => {
@@ -150,10 +150,10 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
             this.isInvalid = isInvalid;
             if (!isInvalid) {
               this.errorText.set('');
-            } else {
-              const errors = this.#inputControl?.errors;
-              this.errorText.set(this.getErrorMessage(errors!));
+              return;
             }
+            const errors = this.#inputControl?.errors || {};
+            this.errorText.set(this.getErrorMessage(errors));
           })
         )
         .subscribe();
@@ -172,7 +172,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     }
 
     for (const [type, message] of Object.entries(this.errorMessages()!)) {
-      if (type in Object.keys(errors)) {
+      if (type in errors) {
         return this.capitalize(message);
       }
     }
