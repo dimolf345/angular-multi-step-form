@@ -1,4 +1,33 @@
-<ng-container [formGroup]="formtest">
+<ng-container [formGroup]="form">
   <app-step-heading [headerText]="stepInfo" /> 
-  <app-input label="name" errorMessages="fuck you" formControlName="test" />
+  
+  <app-input 
+    data-testId="nameInput"
+    formControlName="name" 
+    class="mb-4 md:mb-6" 
+    label="name" 
+    placeholder="e.g. Stephen King"
+    errorMessages="This field is required (at least 2 chars)"
+    debounceTime="200"
+    />
+
+  <app-input 
+    data-testId="emailInput"
+    formControlName="email"
+    class="mb-4 md:mb-6" 
+    label="email address"
+    placeholder="e.g. stephenking@lorem.com"
+    [errorMessages]="{
+      required: 'This field is required',
+      pattern: 'Email not valid'
+    }"
+    debounceTime="400"
+    />
+
+  <app-input 
+    data-testId="phoneInput"
+    formControlName="phone" 
+    label="phone number" 
+    placeholder="e.g. +1 234 567 890" 
+    />
 </ng-container>

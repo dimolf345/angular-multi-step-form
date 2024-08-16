@@ -1,9 +1,3 @@
 :host {
-  //TODO remove min-h class
-  @apply bg-white relative min-h-52 rounded-lg mx-4 -mt-16 px-6 py-8 md:mx-0 md:mt-0 md:py-10;
-}
-
-//TODO: remove once step template is complete
-:host {
-  @apply border border-black  block;
+  @apply bg-white relative rounded-lg mx-4 -mt-16 px-6 py-8 md:mx-0 md:mt-0 md:py-10;
 }

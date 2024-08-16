@@ -74,6 +74,17 @@ describe('Valid Input', () => {
     expect(inputEl.nativeElement).toHaveClass('input', 'input-bordered');
   });
 
+  it('should display the label', () => {
+    const label = template.query(By.css('label'));
+    expect(label).toBeTruthy();
+  });
+
+  it('should display the "*" mark when the input is required', () => {
+    const labelText: string = template.query(By.css('label')).nativeElement
+      .textContent;
+    expect(labelText.includes('*')).toBeTruthy();
+  });
+
   it('should implement controlValue accessor', () => {
     const newValue = 'Some string';
     component.testForm.controls.test.setValue(newValue);
