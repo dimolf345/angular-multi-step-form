@@ -1,6 +1,9 @@
 export interface ISubscriptionItem {
+  id: number;
   title: string;
-  description?: string;
   basePrice: number;
   yearlyDiscount: number;
+  description?: string;
+  theme?: string;
+  icon?: string;
 }
