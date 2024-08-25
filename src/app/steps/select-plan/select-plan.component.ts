@@ -2,12 +2,16 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { FormService } from '../../core/services/form.service';
 import { FormStep, IPlanInfo } from '../../core/models/form.model';
 import { FormGroup } from '@angular/forms';
+import {TileSelectorComponent} from "../../shared/tile-selector/tile-selector.component";
 
 @Component({
   selector: 'app-select-plan',
   standalone: true,
-  imports: [],
-  template: ` <p>select-plan works!</p> `,
+  imports: [TileSelectorComponent],
+  template: `<div>
+    Select plan works!
+    <app-tile-selector checkBoxVariant [tileData]="[]" />
+  </div>`,
   styleUrl: './select-plan.component.scss',
 })
 export class SelectPlanComponent implements OnInit {
