@@ -1,0 +1,14 @@
+<div class="card" [class.vertical-card]="!isMobile()">
+    <ng-container *ngTemplateOutlet="checkBoxVariant()? checkbox : standard"></ng-container>
+</div>
+
+
+<ng-template #standard>
+    <div>Icon</div>
+    <div>Text</div>
+</ng-template>
+
+<ng-template #checkbox>
+    <div>Checkbox</div>
+    <div>Text</div>
+</ng-template>
