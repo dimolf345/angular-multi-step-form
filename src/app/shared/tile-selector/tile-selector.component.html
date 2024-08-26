@@ -1,11 +1,16 @@
-<div class="card" [class.vertical-card]="!isMobile()">
-    <ng-container *ngTemplateOutlet="checkBoxVariant()? checkbox : standard"></ng-container>
-</div>
+<ul [class.flex]="!isMobile()">
+    @for(element of tileData(); track element.id) {
+    <li class="card" [class.vertical-card]="!isMobile()">
+        <ng-container 
+            [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
+            [ngTemplateOutletContext]="{$implicit: element}" />
+    </li>
+    }
+</ul>
 
-
-<ng-template #standard>
-    <div>Icon</div>
-    <div>Text</div>
+<ng-template #standard let-tileData>
+    <img src="" [alt]="">
+    <div>{{tileData.description}}</div>
 </ng-template>
 
 <ng-template #checkbox>
