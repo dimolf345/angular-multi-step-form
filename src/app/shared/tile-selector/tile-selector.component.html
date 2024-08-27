@@ -1,6 +1,10 @@
-<ul [class.flex]="!isMobile()">
+<ul [class.horizontal-list]="!isMobile()">
     @for(element of tileData(); track element.id) {
-    <li class="card" [class.vertical-card]="!isMobile()">
+    <li class="card"  
+        (click)="selectItem(element.id)" 
+        [class.mt-4]="isMobile()"
+        [class.selected]="selectedItems.includes(element.id)"
+        >
         <ng-container 
             [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
             [ngTemplateOutletContext]="{$implicit: element}" />
@@ -8,9 +12,15 @@
     }
 </ul>
 
+@let baseUrl = '/assets/images/';
 <ng-template #standard let-tileData>
-    <img src="" [alt]="">
-    <div>{{tileData.description}}</div>
+    <figure class="card-icon" [class.space-bottom]="!isMobile()">
+        <img class="size-10" [src]="baseUrl + tileData.icon" [alt]="">
+    </figure>
+    <div >
+        <h3>{{tileData.title | titlecase}}</h3>
+        <div class="text-secondary">{{tileData.description}}</div>
+    </div>
 </ng-template>
 
 <ng-template #checkbox>

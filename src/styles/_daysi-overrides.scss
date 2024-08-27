@@ -27,19 +27,9 @@
   @apply border-error outline-error;
 }
 
-// .input-bordered {
-//   @apply border-grey border-opacity-100;
-// }
 
-// .input:focus:not(.input-invalid),
-// .input:focus-within:not(.input-invalid) {
-//   @apply outline-accent;
-// }
-
-// .input.input-invalid {
-//   @apply outline-error;
-// }
-
-// .input.input-invalid:focus-within {
-//   @apply outline-none;
-// }
+.card {
+  figure {
+    @apply block w-max
+  }
+}

@@ -1,8 +1,23 @@
-.card {
-@apply border border-grey
+.horizontal-list {
+    @apply flex w-full justify-between items-start gap-4 flex-nowrap
 }
 
+.card {
+@apply border border-grey p-4 w-full cursor-pointer flex-row md:flex-col
+}
 
-.vertical-card {
-    @apply flex-col
+.card-icon {
+    @apply mr-4 md:m-0
+}
+
+.card.selected, .card:hover {
+    @apply border-accent
+}
+
+.card-body {
+    @apply w-full
+}
+
+.space-bottom {
+    @apply pb-9 pt-1
 }
