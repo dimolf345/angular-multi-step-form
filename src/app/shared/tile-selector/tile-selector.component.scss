@@ -1,5 +1,9 @@
 .horizontal-list {
-    @apply flex w-full justify-between items-start gap-4 flex-nowrap
+    @apply flex w-full justify-between items-stretch gap-4 flex-nowrap 
+}
+
+.tile-list {
+    @apply flex flex-col gap-3 md:gap-4
 }
 
 .card {
@@ -20,4 +24,8 @@
 
 .space-bottom {
     @apply pb-9 pt-1
+}
+
+.form-control {
+    @apply w-full flex flex-row items-center gap-4
 }

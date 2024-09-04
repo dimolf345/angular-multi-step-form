@@ -1,7 +1,8 @@
 export interface ITileData {
     id: number;
     title: string;
-    description: string;
+    priceInfo: string;
+    description?: string;
     extra?: string;
     icon?: string;
     iconBackground?: string;

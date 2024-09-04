@@ -14,7 +14,7 @@ import { IHeaderText, STEP_HEADERS } from '../../shared/step-heading/steps-heade
   imports: [TileSelectorComponent, StepHeadingComponent],
   template: `<div>
     <app-step-heading class="mb-2" [headerText]="stepInfo"/>
-    <app-tile-selector [tileData]="data" />
+    <app-tile-selector (itemsSelected)="test($event)" [tileData]="data" />
   </div>`,
   styleUrl: './select-plan.component.scss',
 })
@@ -26,9 +26,10 @@ export class SelectPlanComponent implements OnInit {
   data: ITileData[] = PLANS.map((plan)=>({
     id: plan.id,
     title: plan.title,
-    description: String(plan.basePrice),
+    priceInfo: String(plan.basePrice),
     icon: plan.icon,
-    iconBackground: plan.theme
+    iconBackground: plan.theme,
+    description: plan.description || ''
   }))
 
   form!: FormGroup<IPlanInfo>;
@@ -41,5 +42,9 @@ export class SelectPlanComponent implements OnInit {
       );
     }
     this.stepInfo = STEP_HEADERS[this.stepName()!];
+  }
+
+  test(selected: unknown) {
+    console.log(selected);
   }
 }

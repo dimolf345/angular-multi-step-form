@@ -1,29 +1,43 @@
-<ul [class.horizontal-list]="!isMobile()">
+<ul class="w-full transition" 
+    [ngClass]="horizontalView()? 'horizontal-list': 'tile-list'" 
+>
+    
     @for(element of tileData(); track element.id) {
-    <li class="card"  
-        (click)="selectItem(element.id)" 
-        [class.mt-4]="isMobile()"
-        [class.selected]="selectedItems.includes(element.id)"
-        >
-        <ng-container 
-            [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
-            [ngTemplateOutletContext]="{$implicit: element}" />
-    </li>
+        @let isSelected = selectedItems.includes(element.id); 
+        <li class="card"
+            [ngClass]="{'selected': isSelected, 'bg-lightgrey': isSelected}"
+            (click)="selectItem(element.id)" 
+            >
+            <ng-container 
+                [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
+                [ngTemplateOutletContext]="{$implicit: element}" />
+        </li>
     }
 </ul>
 
 @let baseUrl = '/assets/images/';
 <ng-template #standard let-tileData>
-    <figure class="card-icon" [class.space-bottom]="!isMobile()">
-        <img class="size-10" [src]="baseUrl + tileData.icon" [alt]="">
-    </figure>
-    <div >
-        <h3>{{tileData.title | titlecase}}</h3>
-        <div class="text-secondary">{{tileData.description}}</div>
+    <div data-testId="standard-tile">
+        <figure class="card-icon" [class.space-bottom]="!isMobile()">
+            <img class="size-10" [src]="baseUrl + tileData.icon" [alt]="">
+        </figure>
+        <div >
+            <h3 class="text-primary">{{tileData.title | titlecase}}</h3>
+            <p class="text-secondary">{{tileData.priceInfo}}</p>
+        </div>
     </div>
 </ng-template>
 
-<ng-template #checkbox>
-    <div>Checkbox</div>
-    <div>Text</div>
+<ng-template #checkbox let-tileData>
+    <div class="form-control" data-testId="checkbox-tile">
+        <label class="label cursor-pointer">
+            <span class="sr-only">Select {{tileData.title}} addon</span>
+            <input type="checkbox" class="checkbox checkbox-accent" [checked]="selectedItems.includes(tileData.id)">
+        </label>
+        <div>
+            <h3 class="text-primary">{{tileData.title | titlecase}}</h3>
+            <p class="text-secondary text-sm">{{tileData.description}}</p>
+        </div>
+        <div class="ml-auto text-accent">text</div>
+    </div>
 </ng-template>

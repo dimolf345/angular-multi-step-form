@@ -1,14 +1,14 @@
-import {booleanAttribute, Component, inject, input, output} from '@angular/core';
+import {booleanAttribute, Component, computed, inject, input, output} from '@angular/core';
 import {MediaMatcherService} from '../../core/services/media-matcher.service';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {NgTemplateOutlet, TitleCasePipe} from '@angular/common';
+import {JsonPipe, NgClass, NgTemplateOutlet, TitleCasePipe} from '@angular/common';
 import {ITileData} from '../../core/models/tile-data.model';
 
 @Component({
   selector: 'app-tile-selector',
   templateUrl: './tile-selector.component.html',
   standalone: true,
-  imports: [NgTemplateOutlet, TitleCasePipe],
+  imports: [NgTemplateOutlet, TitleCasePipe, NgClass, JsonPipe],
   styleUrl: './tile-selector.component.scss',
 })
 export class TileSelectorComponent {
@@ -21,9 +21,15 @@ export class TileSelectorComponent {
 
   selectedItems: number[] = [];
 
+  horizontalView = computed(()=> !this.isMobile() && !this.checkBoxVariant())
+
   selectItem(itemId: number) {
     if (this.checkBoxVariant()) {
-      this.selectedItems = [...this.selectedItems, itemId];
+      if (this.selectedItems.includes(itemId)) {
+        this.selectedItems = this.selectedItems.filter((id)=> id !== itemId)
+      } else {
+        this.selectedItems = [...this.selectedItems, itemId];
+      }
       this.itemsSelected.emit(this.selectedItems);
     } else {
       this.selectedItems = [itemId];
