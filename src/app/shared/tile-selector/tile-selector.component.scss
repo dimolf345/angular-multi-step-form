@@ -6,6 +6,20 @@
     @apply flex flex-col gap-3 md:gap-4
 }
 
+
+.space-bottom {
+    @apply pb-9 pt-1
+}
+
+.form-control {
+    @apply w-full flex flex-row items-center gap-4
+}
+
+.flex-tile {
+    @apply flex items-center
+}
+
+//Daisy UI
 .card {
 @apply border border-grey p-4 w-full cursor-pointer flex-row md:flex-col
 }
@@ -21,11 +35,4 @@
 .card-body {
     @apply w-full
 }
-
-.space-bottom {
-    @apply pb-9 pt-1
-}
-
-.form-control {
-    @apply w-full flex flex-row items-center gap-4
-}
+//

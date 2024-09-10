@@ -1,12 +1,12 @@
-<ul class="w-full transition" 
+<ul data-testId="tile-list" class="w-full transition" 
     [ngClass]="horizontalView()? 'horizontal-list': 'tile-list'" 
 >
     
     @for(element of tileData(); track element.id) {
-        @let isSelected = selectedItems.includes(element.id); 
+        @let isSelected = selectedItems.has(element.id); 
         <li class="card"
             [ngClass]="{'selected': isSelected, 'bg-lightgrey': isSelected}"
-            (click)="selectItem(element.id)" 
+            (click)="select(element.id)" 
             >
             <ng-container 
                 [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
@@ -17,7 +17,7 @@
 
 @let baseUrl = '/assets/images/';
 <ng-template #standard let-tileData>
-    <div data-testId="standard-tile">
+    <div data-testId="standard-tile" [class.flex-tile]="isMobile()">
         <figure class="card-icon" [class.space-bottom]="!isMobile()">
             <img class="size-10" [src]="baseUrl + tileData.icon" [alt]="">
         </figure>
@@ -32,7 +32,7 @@
     <div class="form-control" data-testId="checkbox-tile">
         <label class="label cursor-pointer">
             <span class="sr-only">Select {{tileData.title}} addon</span>
-            <input type="checkbox" class="checkbox checkbox-accent" [checked]="selectedItems.includes(tileData.id)">
+            <input type="checkbox" class="checkbox checkbox-accent" [checked]="selectedItems.has(tileData.id)">
         </label>
         <div>
             <h3 class="text-primary">{{tileData.title | titlecase}}</h3>
