@@ -6,4 +6,5 @@ export const mockMediaMatcherService = {
   switchView: (view: 'desktop' | 'mobile') =>
     mockMediaQuery.next(view === 'mobile'),
   mediaQuery: jest.fn().mockReturnValue(mockMediaQuery),
+  mobileMediaQuery: mockMediaQuery
 };

@@ -1,0 +1,38 @@
+.horizontal-list {
+    @apply flex w-full justify-between items-stretch gap-4 flex-nowrap 
+}
+
+.tile-list {
+    @apply flex flex-col gap-3 md:gap-4
+}
+
+
+.space-bottom {
+    @apply pb-9 pt-1
+}
+
+.form-control {
+    @apply w-full flex flex-row items-center gap-4
+}
+
+.flex-tile {
+    @apply flex items-center
+}
+
+//Daisy UI
+.card {
+@apply border border-grey p-4 w-full cursor-pointer flex-row md:flex-col
+}
+
+.card-icon {
+    @apply mr-4 md:m-0
+}
+
+.card.selected, .card:hover {
+    @apply border-accent
+}
+
+.card-body {
+    @apply w-full
+}
+//

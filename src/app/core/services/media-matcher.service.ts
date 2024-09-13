@@ -11,6 +11,10 @@ export class MediaMatcherService {
 
   #activeMediaQueries: Record<string, Observable<boolean>> = {};
 
+  get mobileMediaQuery() {
+    return this.mediaQuery('max', 'sm');
+  }
+
   mediaQuery(
     type: 'min' | 'max',
     breakPoint: keyof typeof this.BREAKPOINTS

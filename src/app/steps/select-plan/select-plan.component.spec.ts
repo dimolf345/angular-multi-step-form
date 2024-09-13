@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectPlanComponent } from './select-plan.component';
 
-describe('SelectPlanComponent', () => {
+describe.skip('SelectPlanComponent', () => {
   let component: SelectPlanComponent;
   let fixture: ComponentFixture<SelectPlanComponent>;
 

@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EBilling, FormStep, ISubscriptionForm } from '../models/form.model';
-import { ISubscriptionItem } from '../models/subscription-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,14 +37,14 @@ export class FormService {
         ]),
       }),
       plan: this.#fb.group({
-        basePlan: this.#fb.control<ISubscriptionItem | null>(null, [
+        basePlan: this.#fb.nonNullable.control<number | null>(null,[
           Validators.required,
         ]),
         billingType: this.#fb.nonNullable.control<EBilling>(EBilling.MONTHLY, [
           Validators.required,
         ]),
       }),
-      addons: this.#fb.nonNullable.control<ISubscriptionItem[]>([]),
+      addons: this.#fb.nonNullable.control<number[]>([]),
     });
   }
 }
