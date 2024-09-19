@@ -7,14 +7,16 @@ import { PLANS } from '../../core/data/plans';
 import { ITileData } from '../../core/models/tile-data.model';
 import { StepHeadingComponent } from "../../shared/step-heading/step-heading.component";
 import { IHeaderText, STEP_HEADERS } from '../../shared/step-heading/steps-headers';
+import { TogglerComponent } from '../../shared/toggler/toggler.component';
 
 @Component({
   selector: 'app-select-plan',
   standalone: true,
-  imports: [TileSelectorComponent, StepHeadingComponent],
-  template: `<div>
-    <app-step-heading class="mb-2" [headerText]="stepInfo"/>
-    <app-tile-selector (itemsSelected)="test($event)" [tileData]="data" />
+  imports: [TileSelectorComponent, StepHeadingComponent, TogglerComponent],
+  template: `<div class="flex flex-col gap-2">
+    <app-step-heading [headerText]="stepInfo"/>
+    <app-tile-selector  (itemsSelected)="test($event)" [tileData]="data" />
+    <app-toggler trueLabel="Yearly" falseLabel="Monthly" />
   </div>`,
   styleUrl: './select-plan.component.scss',
 })

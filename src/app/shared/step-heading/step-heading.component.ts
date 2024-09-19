@@ -15,7 +15,11 @@ import { IHeaderText } from './steps-headers';
       </p>
     </header>
   `,
-  styleUrl: './step-heading.component.scss',
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepHeadingComponent {
