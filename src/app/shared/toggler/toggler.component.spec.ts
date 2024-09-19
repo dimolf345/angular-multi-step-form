@@ -45,6 +45,19 @@ describe('TogglerComponent', () => {
     expect(toggler.nativeElement).not.toBeEnabled();
   })
 
+
+  it('calls the on change and toggler functions when clicked', ()=> {
+    jest.spyOn(component, 'onChange');
+    jest.spyOn(component, 'toggle');
+
+    const toggler = template.query(By.css('[data-testId="toggler-checkbox"]'));
+    
+    triggerClick(toggler, fixture);
+
+    expect(component.onChange).toHaveBeenCalled();
+    expect(component.toggle).toHaveBeenCalled();
+  })
+
   it('can show optionally a string for the false value of the checkbox', ()=> {
     component.falseLabel = "Test";
     fixture.detectChanges();
