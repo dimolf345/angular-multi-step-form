@@ -37,3 +37,13 @@
 .checkbox-accent {
   @apply border-grey
 }
+
+.toggle {
+  @apply border-primary  [--tglbg:#022959] bg-white hover:bg-white
+}
+
+
+.toggle:disabled {
+  --togglehandleborder: 0 0 0 3px white;
+  background-color: white;
+}

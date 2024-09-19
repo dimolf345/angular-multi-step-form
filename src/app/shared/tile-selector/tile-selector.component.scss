@@ -1,3 +1,7 @@
+:host {
+    display: block;
+}
+
 .horizontal-list {
     @apply flex w-full justify-between items-stretch gap-4 flex-nowrap 
 }
@@ -31,8 +35,3 @@
 .card.selected, .card:hover {
     @apply border-accent
 }
-
-.card-body {
-    @apply w-full
-}
-//
