@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import {Component, forwardRef, HostAttributeToken, inject, model} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { Component, forwardRef, HostAttributeToken, inject, model } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-toggler',
@@ -30,6 +30,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
         (change)="toggle()"  
         class="toggle" 
         [disabled]="disabled()"
+        [checked]="value"
         />
 
       @if(trueLabel) {
@@ -48,14 +49,14 @@ export class TogglerComponent implements ControlValueAccessor {
   disabled = model(false);
   value = false;
 
-  falseLabel: string | null = inject(new HostAttributeToken('falseLabel'), {optional: true});
-  trueLabel: string | null = inject(new HostAttributeToken('trueLabel'), {optional: true});
+  falseLabel: string | null = inject(new HostAttributeToken('falseLabel'), { optional: true });
+  trueLabel: string | null = inject(new HostAttributeToken('trueLabel'), { optional: true });
 
-  onChange: (value: boolean) => void = () => {};
+  onChange: (value: number) => void = () => {};
   onTouched: () => void = () => {};
 
-  writeValue(value: boolean): void {
-    this.value = value;
+  writeValue(value: number): void {
+    this.value = Boolean(value);
   }
 
   registerOnChange(fn: () => void): void {
@@ -73,7 +74,7 @@ export class TogglerComponent implements ControlValueAccessor {
   toggle(): void {
     if (!this.disabled()) {
       this.value = !this.value;
-      this.onChange(this.value);
+      this.onChange(Number(this.value));
       this.onTouched();
     }
   }

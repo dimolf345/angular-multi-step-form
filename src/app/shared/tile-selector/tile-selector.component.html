@@ -1,34 +1,44 @@
-<ul data-testId="tile-list" class="w-full transition" 
-    [ngClass]="horizontalView()? 'horizontal-list': 'tile-list'" 
->
-    
+<ul data-testId="tile-list" class="w-full" [ngClass]="horizontalView()? 'horizontal-list': 'tile-list'">
+
     @for(element of tileData(); track element.id) {
-        @let isSelected = selectedItems.has(element.id); 
-        <li class="card"
-            [ngClass]="{'selected': isSelected, 'bg-lightgrey': isSelected}"
-            (click)="select(element.id)" 
-            >
-            <ng-container 
-                [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
-                [ngTemplateOutletContext]="{$implicit: element}" />
-        </li>
+    @let isSelected = selectedItems.has(element.id);
+    <li data-testId="tile-option" class="card " (click)="select(element.id)" [ngClass]="{
+                'selected': isSelected, 
+                'bg-lightgrey': isSelected,
+                'h-max': horizontalView() && !checkBoxVariant()
+                }">
+        <ng-container [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
+            [ngTemplateOutletContext]="{$implicit: element}" />
+    </li>
     }
 </ul>
 
 @let baseUrl = '/assets/images/';
 <ng-template #standard let-tileData>
+    @let priceInfo = billingType() === 'MONTHLY'
+    ? tileData.monthlyPrice
+    : tileData.yearlyPrice;
+
     <div data-testId="standard-tile" [class.flex-tile]="isMobile()">
         <figure class="card-icon" [class.space-bottom]="!isMobile()">
             <img class="size-10" [src]="baseUrl + tileData.icon" [alt]="">
         </figure>
-        <div >
+        <div class="flex flex-col">
             <h3 class="text-primary">{{tileData.title | titlecase}}</h3>
-            <p class="text-secondary">{{tileData.priceInfo}}</p>
+            <p data-testId="priceInfo" class="text-secondary">{{priceInfo | priceString: billingType()}}</p>
+            <p data-testId="yearly-discount" [class.hidden]="!showExtra()"
+                [@fadeInFromTop]="showExtra()? 'visible': 'hidden'" class="text-primary">
+                {{tileData.extra}}
+            </p>
         </div>
     </div>
 </ng-template>
 
 <ng-template #checkbox let-tileData>
+    @let priceInfo = billingType() === 'MONTHLY'
+    ? tileData.monthlyPrice
+    : tileData.yearlyPrice;
+
     <div class="form-control" data-testId="checkbox-tile">
         <label class="label cursor-pointer">
             <span class="sr-only">Select {{tileData.title}} addon</span>
@@ -36,8 +46,7 @@
         </label>
         <div>
             <h3 class="text-primary">{{tileData.title | titlecase}}</h3>
-            <p class="text-secondary text-sm">{{tileData.description}}</p>
+            <p data-testId="priceInfo" class="text-secondary text-sm">{{priceInfo | priceString: billingType()}}</p>
         </div>
-        <div class="ml-auto text-accent">text</div>
     </div>
 </ng-template>

@@ -1,9 +1,5 @@
-:host {
-    display: block;
-}
-
 .horizontal-list {
-    @apply flex w-full justify-between items-stretch gap-4 flex-nowrap 
+    @apply flex w-full justify-between items-stretch gap-4 flex-nowrap md:max-h-[162px] overflow-visible
 }
 
 .tile-list {
@@ -23,9 +19,11 @@
     @apply flex items-center
 }
 
+
+
 //Daisy UI
 .card {
-@apply border border-grey p-4 w-full cursor-pointer flex-row md:flex-col
+    @apply border border-grey p-4 w-full cursor-pointer flex-row md:flex-col
 }
 
 .card-icon {
