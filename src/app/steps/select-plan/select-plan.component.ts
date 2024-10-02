@@ -17,7 +17,7 @@ import { TogglerComponent } from '../../shared/toggler/toggler.component';
   <div [formGroup]="form" class="flex flex-col gap-2">
     @let billingType = form.get('billingType')!.value;
 
-    <app-step-heading [headerText]="stepInfo"/>
+    <app-step-heading  [headerText]="stepInfo"/>
     <app-tile-selector 
       (itemsSelected)="setPlan($event)" 
       [tileData]="data" 
@@ -52,14 +52,12 @@ export class SelectPlanComponent implements OnInit {
       this.form = this.#formService.getStep<FormGroup<IPlanInfo>>(this.stepName()!);
     }
     this.stepInfo = STEP_HEADERS[this.stepName()!];
-
-    /* const { billingType } = this.form.controls; */
   }
 
   setPlan(id: number | number[]) {
     if (typeof id == 'number') {
       const { basePlan } = this.form.controls;
-      basePlan.setValue(id, { emitEvent: false });
+      basePlan.setValue(id, { emitEvent: true });
     }
   }
 }
