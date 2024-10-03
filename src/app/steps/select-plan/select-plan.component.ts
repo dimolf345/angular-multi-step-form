@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { FormService } from '../../core/services/form.service';
 import { EBilling, FormStep, IPlanInfo } from '../../core/models/form.model';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +8,8 @@ import { ITileData } from '../../core/models/tile-data.model';
 import { StepHeadingComponent } from '../../shared/step-heading/step-heading.component';
 import { IHeaderText, STEP_HEADERS } from '../../shared/step-heading/steps-headers';
 import { TogglerComponent } from '../../shared/toggler/toggler.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, tap } from 'rxjs';
 
 @Component({
   selector: 'app-select-plan',
@@ -29,6 +31,7 @@ import { TogglerComponent } from '../../shared/toggler/toggler.component';
   styleUrl: './select-plan.component.scss',
 })
 export class SelectPlanComponent implements OnInit {
+  #destroyRef = inject(DestroyRef);
   #formService = inject(FormService);
   stepName = input<FormStep>();
   billings = EBilling;
@@ -52,12 +55,30 @@ export class SelectPlanComponent implements OnInit {
       this.form = this.#formService.getStep<FormGroup<IPlanInfo>>(this.stepName()!);
     }
     this.stepInfo = STEP_HEADERS[this.stepName()!];
+
+    const { billingType, basePlan } = this.form.controls;
+    billingType.valueChanges
+      .pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        filter(() => (basePlan.value || 0) > 0),
+        tap(() => this.setPlan(basePlan.value!)),
+      )
+      .subscribe();
   }
 
   setPlan(id: number | number[]) {
     if (typeof id == 'number') {
-      const { basePlan } = this.form.controls;
-      basePlan.setValue(id, { emitEvent: true });
+      const selectedPlan = this.data.find((p) => p.id == id);
+      const { basePlan, price, billingType } = this.form.controls;
+      basePlan.setValue(id, { emitEvent: false });
+
+      if (selectedPlan) {
+        price.setValue(
+          billingType.value == 1 ? selectedPlan.yearlyPrice! : selectedPlan.monthlyPrice,
+        );
+      } else {
+        console.error('No valid plan selected');
+      }
     }
   }
 }

@@ -37,12 +37,11 @@ export class FormService {
         ]),
       }),
       plan: this.#fb.group({
-        basePlan: this.#fb.nonNullable.control<number | null>(null,[
-          Validators.required,
-        ]),
+        basePlan: this.#fb.nonNullable.control<number | null>(null, [Validators.required]),
         billingType: this.#fb.nonNullable.control<EBilling>(EBilling.MONTHLY, [
           Validators.required,
         ]),
+        price: this.#fb.nonNullable.control<number>(0, [Validators.min(1), Validators.required]),
       }),
       addons: this.#fb.nonNullable.control<number[]>([]),
     });

@@ -9,6 +9,7 @@ export interface IpersonalInfo {
 export interface IPlanInfo {
   basePlan: FormControl<number | null>;
   billingType: FormControl<EBilling>;
+  price: FormControl<number>;
 }
 
 export enum EBilling {
