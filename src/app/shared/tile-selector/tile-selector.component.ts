@@ -1,4 +1,14 @@
-import { booleanAttribute, Component, computed, inject, input, output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { MediaMatcherService } from '../../core/services/media-matcher.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NgClass, NgTemplateOutlet, TitleCasePipe } from '@angular/common';
@@ -14,8 +24,10 @@ import { fadeInFromTop } from '../../animations';
   imports: [NgTemplateOutlet, TitleCasePipe, NgClass, PriceStringPipe],
   styleUrl: './tile-selector.component.scss',
   animations: fadeInFromTop,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TileSelectorComponent {
+  #cdr = inject(ChangeDetectorRef);
   isMobile = toSignal(inject(MediaMatcherService).mobileMediaQuery);
 
   /* INPUTS */
@@ -23,22 +35,34 @@ export class TileSelectorComponent {
   tileData = input.required<ITileData[]>();
   billingType = input.required({ transform: this.valueToKey });
   showExtra = input(false);
+  initialSelected = input<number | number[]>();
   /* OUTPUTS */
   itemsSelected = output<number[] | number>();
+  /* EFFECTS */
+  addToItemsSelectedEffect = effect(() => {
+    if (this.initialSelected()) {
+      typeof this.initialSelected() == 'number'
+        ? this.selectedItems.add(this.initialSelected() as number)
+        : (this.selectedItems = new Set(this.initialSelected() as number[]));
+
+      this.#cdr.markForCheck();
+    }
+  });
   //
+
   selectedItems = new Set<number>();
   horizontalView = computed(() => !this.isMobile() && !this.checkBoxVariant());
 
-  select(itemId: number) {
+  select(itemId: number, emit = false) {
     if (this.checkBoxVariant()) {
       this.selectedItems.has(itemId)
         ? this.selectedItems.delete(itemId)
         : this.selectedItems.add(itemId);
-      this.itemsSelected.emit([...this.selectedItems.values()]);
+      emit && this.itemsSelected.emit([...this.selectedItems.values()]);
     } else {
       this.selectedItems.clear();
       this.selectedItems.add(itemId);
-      this.itemsSelected.emit(itemId);
+      emit && this.itemsSelected.emit(itemId);
     }
   }
 

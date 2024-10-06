@@ -22,6 +22,7 @@ import { filter, tap } from 'rxjs';
     <app-step-heading  [headerText]="stepInfo"/>
     <app-tile-selector 
       (itemsSelected)="setPlan($event)" 
+      [initialSelected]="selectedPlan"
       [tileData]="data" 
       [billingType]="billingType"
       [showExtra]="billingType === billings.YEARLY"
@@ -49,6 +50,7 @@ export class SelectPlanComponent implements OnInit {
 
   form!: FormGroup<IPlanInfo>;
   stepInfo!: IHeaderText;
+  selectedPlan: number | undefined = 1;
 
   ngOnInit(): void {
     if (this.stepName()) {
@@ -57,6 +59,11 @@ export class SelectPlanComponent implements OnInit {
     this.stepInfo = STEP_HEADERS[this.stepName()!];
 
     const { billingType, basePlan } = this.form.controls;
+
+    if (basePlan.value) {
+      this.selectedPlan = basePlan.value;
+    }
+
     billingType.valueChanges
       .pipe(
         takeUntilDestroyed(this.#destroyRef),

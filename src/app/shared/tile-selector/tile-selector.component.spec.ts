@@ -84,7 +84,7 @@ describe('TileSelectorComponent', () => {
     const card = template.query(By.css('.card'));
     triggerClick(card, fixture);
 
-    expect(component.select).toHaveBeenCalledWith(expectedCardId);
+    expect(component.select).toHaveBeenCalledWith(expectedCardId, true);
   });
 
   it('should emit a single item selected when in standard mode', () => {
@@ -131,6 +131,27 @@ describe('TileSelectorComponent', () => {
 
     triggerClick(card, fixture);
     expect(component.itemsSelected.emit).toHaveBeenCalledWith([]);
+  });
+
+  it('should highlight the initially selected card if provided in standard mode', () => {
+    const selectedId = MOCK_PLANS[0].id;
+    componentRef.setInput('initialSelected', selectedId);
+    fixture.detectChanges();
+
+    const selectedCard = template.query(By.css('[data-testId="tile-option"]'));
+    expect(selectedCard.nativeElement).toHaveClass('selected');
+  });
+
+  it('should highlight the initially selected cards if provided in checkbox mode', () => {
+    const selectedIds = [MOCK_PLANS[0].id, MOCK_PLANS[1].id];
+    componentRef.setInput('initialSelected', selectedIds);
+    fixture.detectChanges();
+
+    const selectedCards = template.queryAll(By.css('[data-testId="tile-option"]'));
+
+    for (const index of Object.keys(selectedIds)) {
+      expect(selectedCards.at(+index)?.nativeElement).toHaveClass('selected');
+    }
   });
 
   it('should pick the correct price based on billingType', () => {

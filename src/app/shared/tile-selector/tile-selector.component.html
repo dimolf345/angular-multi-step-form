@@ -2,7 +2,7 @@
 
     @for(element of tileData(); track element.id) {
     @let isSelected = selectedItems.has(element.id);
-    <li data-testId="tile-option" class="card " (click)="select(element.id)" [ngClass]="{
+    <li data-testId="tile-option" class="card " (click)="select(element.id, true)" [ngClass]="{
                 'selected': isSelected, 
                 'bg-lightgrey': isSelected,
                 'h-max': horizontalView() && !checkBoxVariant()
