@@ -19,7 +19,7 @@ import { filter, tap } from 'rxjs';
   <div [formGroup]="form" class="flex flex-col gap-2">
     @let billingType = form.get('billingType')!.value;
 
-    <app-step-heading  [headerText]="stepInfo"/>
+    <app-step-heading [headerText]="stepInfo"/>
     <app-tile-selector 
       (itemsSelected)="setPlan($event)" 
       [initialSelected]="selectedPlan"
@@ -55,8 +55,8 @@ export class SelectPlanComponent implements OnInit {
   ngOnInit(): void {
     if (this.stepName()) {
       this.form = this.#formService.getStep<FormGroup<IPlanInfo>>(this.stepName()!);
+      this.stepInfo = STEP_HEADERS[this.stepName()!];
     }
-    this.stepInfo = STEP_HEADERS[this.stepName()!];
 
     const { billingType, basePlan } = this.form.controls;
 

@@ -59,7 +59,7 @@ describe('TileSelectorComponent', () => {
     const standardTilesBefore = template.queryAll(By.css('[data-testId="standard-tile"]'));
     expect(standardTilesBefore.length).toBeGreaterThan(0);
 
-    componentRef.setInput('checkBoxVariant', true);
+    componentRef.setInput('checkboxVariant', true);
     fixture.detectChanges();
 
     const standardTilesAfter = template.queryAll(By.css('[data-testId="standard-tile"]'));
@@ -104,7 +104,7 @@ describe('TileSelectorComponent', () => {
   });
 
   it('can emit multiple values when in checkbox mode', () => {
-    componentRef.setInput('checkBoxVariant', true);
+    componentRef.setInput('checkboxVariant', true);
     jest.spyOn(component.itemsSelected, 'emit');
     fixture.detectChanges();
 
@@ -120,7 +120,7 @@ describe('TileSelectorComponent', () => {
   });
 
   it('can uncheck a card in checkboxmode', () => {
-    componentRef.setInput('checkBoxVariant', true);
+    componentRef.setInput('checkboxVariant', true);
     fixture.detectChanges();
     jest.spyOn(component.itemsSelected, 'emit');
 

@@ -12,18 +12,30 @@
 }
 
 .form-control {
-    @apply w-full flex flex-row items-center gap-4
+    @apply w-full flex flex-row items-center gap-2 md:gap-4
 }
 
 .flex-tile {
     @apply flex items-center
 }
 
+.title-text {
+    @apply text-primary font-medium text-sm md:text-base;
+}
+
+.description-text {
+    @apply text-secondary text-xs md:text-sm
+}
+
+.price-text {
+    @apply text-accent text-xs md:text-base
+}
+
 
 
 //Daisy UI
 .card {
-    @apply border border-grey p-4 w-full cursor-pointer flex-row md:flex-col
+    @apply border border-grey p-3 md:p-4 w-full cursor-pointer flex-row md:flex-col
 }
 
 .card-icon {

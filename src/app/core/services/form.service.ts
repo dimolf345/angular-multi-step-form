@@ -20,6 +20,10 @@ export class FormService {
     throw new Error(`Step ${stepName} is not a valid step!`);
   }
 
+  get billingType() {
+    return this.subscriptionForm.controls.plan.controls.billingType.value;
+  }
+
   private createForm() {
     return this.#fb.group<ISubscriptionForm>({
       personalInfo: this.#fb.group({
