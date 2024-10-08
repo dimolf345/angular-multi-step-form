@@ -6,7 +6,7 @@ import { IHeaderText } from './steps-headers';
   standalone: true,
   imports: [],
   template: `
-    <header class="prose">
+    <header class="prose mb-4 md:mb-6">
       <h1 data-testId="step-head-title">
         {{ headerText().title }}
       </h1>

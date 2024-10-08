@@ -14,6 +14,7 @@ module.exports = {
       fontSize: {
         headingDesktop: "2rem",
         headingMobile: "1.5rem",
+        bodyL: "1rem"
       },
       colors: {
         primary: "#022959",
@@ -45,7 +46,7 @@ module.exports = {
             p: {
               color: theme("colors.secondary"),
               marginTop: 0,
-              fontSize: "1rem",
+              fontSize: theme("fontSize.bodyL"),
               lineHeight: "25px",
             },
             //

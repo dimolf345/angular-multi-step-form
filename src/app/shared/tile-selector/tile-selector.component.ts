@@ -31,7 +31,7 @@ export class TileSelectorComponent {
   isMobile = toSignal(inject(MediaMatcherService).mobileMediaQuery);
 
   /* INPUTS */
-  checkBoxVariant = input(false, { transform: booleanAttribute });
+  checkboxVariant = input(false, { transform: booleanAttribute });
   tileData = input.required<ITileData[]>();
   billingType = input.required({ transform: this.valueToKey });
   showExtra = input(false);
@@ -51,10 +51,10 @@ export class TileSelectorComponent {
   //
 
   selectedItems = new Set<number>();
-  horizontalView = computed(() => !this.isMobile() && !this.checkBoxVariant());
+  horizontalView = computed(() => !this.isMobile() && !this.checkboxVariant());
 
   select(itemId: number, emit = false) {
-    if (this.checkBoxVariant()) {
+    if (this.checkboxVariant()) {
       this.selectedItems.has(itemId)
         ? this.selectedItems.delete(itemId)
         : this.selectedItems.add(itemId);
@@ -64,6 +64,7 @@ export class TileSelectorComponent {
       this.selectedItems.add(itemId);
       emit && this.itemsSelected.emit(itemId);
     }
+    this.#cdr.markForCheck();
   }
 
   private valueToKey(value: EBilling) {

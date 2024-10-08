@@ -2,12 +2,12 @@
 
     @for(element of tileData(); track element.id) {
     @let isSelected = selectedItems.has(element.id);
-    <li data-testId="tile-option" class="card " (click)="select(element.id, true)" [ngClass]="{
+    <li data-testId="tile-option" class="card" (click)="select(element.id, true)" [ngClass]="{
                 'selected': isSelected, 
                 'bg-lightgrey': isSelected,
-                'h-max': horizontalView() && !checkBoxVariant()
+                'h-max': horizontalView() && !checkboxVariant()
                 }">
-        <ng-container [ngTemplateOutlet]="checkBoxVariant()? checkbox : standard"
+        <ng-container [ngTemplateOutlet]="checkboxVariant()? checkbox : standard"
             [ngTemplateOutletContext]="{$implicit: element}" />
     </li>
     }
@@ -24,7 +24,7 @@
             <img class="size-10" [src]="baseUrl + tileData.icon" [alt]="">
         </figure>
         <div class="flex flex-col">
-            <h3 class="text-primary">{{tileData.title | titlecase}}</h3>
+            <h3 class="title-text">{{tileData.title | titlecase}}</h3>
             <p data-testId="priceInfo" class="text-secondary">{{priceInfo | priceString: billingType()}}</p>
             <p data-testId="yearly-discount" [class.hidden]="!showExtra()"
                 [@fadeInFromTop]="showExtra()? 'visible': 'hidden'" class="text-primary">
@@ -45,8 +45,11 @@
             <input type="checkbox" class="checkbox checkbox-accent" [checked]="selectedItems.has(tileData.id)">
         </label>
         <div>
-            <h3 class="text-primary">{{tileData.title | titlecase}}</h3>
-            <p data-testId="priceInfo" class="text-secondary text-sm">{{priceInfo | priceString: billingType()}}</p>
+            <h3 class="title-text">{{tileData.title | titlecase}}</h3>
+            <p class="description-text">{{tileData.description}}</p>
+        </div>
+        <div class="ml-auto">
+            <span class="price-text">+{{priceInfo | priceString: billingType()}}</span>
         </div>
     </div>
 </ng-template>
