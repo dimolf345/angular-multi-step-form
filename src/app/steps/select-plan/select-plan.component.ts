@@ -50,7 +50,7 @@ export class SelectPlanComponent implements OnInit {
 
   form!: FormGroup<IPlanInfo>;
   stepInfo!: IHeaderText;
-  selectedPlan: number | undefined = 1;
+  selectedPlan: number | undefined;
 
   ngOnInit(): void {
     if (this.stepName()) {
