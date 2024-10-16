@@ -16,11 +16,11 @@ import { ADDONS } from '../../core/data/addons';
     <ng-container>
       <app-step-heading  [headerText]="stepInfo"/>
       <app-tile-selector 
-        (itemsSelected)="updateControl($event)"
+        (itemsSelected)="updateAddons($event)"
         checkboxVariant
         [tileData]="data" 
         [billingType]="billingType"
-        [initialSelected]="control.value"
+        [initialSelected]="addonsIds"
         />
   </ng-container>
 
@@ -30,9 +30,10 @@ export class AddOnsComponent implements OnInit {
   #formService = inject(FormService);
   stepName = input<FormStep>();
 
-  control!: FormControl<number[]>;
+  control!: FormControl<{ id: number; price: number }[]>;
   stepInfo!: IHeaderText;
   billingType!: EBilling;
+  addonsIds: number[] = [];
 
   data: ITileData[] = ADDONS.map((addon) => ({
     title: addon.title,
@@ -44,13 +45,36 @@ export class AddOnsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.stepName()) {
-      this.control = this.#formService.getStep<FormControl<number[]>>(this.stepName()!);
+      this.control = this.#formService.getStep(this.stepName()!);
       this.billingType = this.#formService.billingType;
       this.stepInfo = STEP_HEADERS[this.stepName()!];
+
+      if (this.control.value.length) {
+        this.addonsIds = this.control.value.map(({ id }) => id);
+      }
     }
   }
 
-  updateControl(itemsSelected: number | number[]) {
-    this.control.setValue(itemsSelected as number[]);
+  updateAddons(itemsSelected: number | number[]) {
+    const selectedAddons = this.data.filter((addon) =>
+      (itemsSelected as number[]).includes(addon.id),
+    );
+    this.#formService.selectedAddons = selectedAddons;
+
+    const controlValue = [];
+    this.addonsIds = [];
+
+    for (const addon of selectedAddons) {
+      const { monthlyPrice, yearlyPrice } = addon;
+
+      controlValue.push({
+        id: addon.id,
+        price: this.billingType === EBilling.MONTHLY ? monthlyPrice : yearlyPrice,
+      });
+
+      this.addonsIds.push(addon.id);
+    }
+
+    this.control.setValue(controlValue);
   }
 }
