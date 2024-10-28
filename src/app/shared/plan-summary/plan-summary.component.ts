@@ -17,7 +17,7 @@ export class PlanSummaryComponent {
   optionalItems = input<{ label: string; price: number }[] | null>();
 
   billingType = input.required({ transform: this.valueToKey });
-  redicrectLink = input<string>();
+  redirectLink = input<string>('');
 
   totalPrice = computed(
     () =>

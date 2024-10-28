@@ -17,7 +17,8 @@ import { StepHeadingComponent } from '../../shared/step-heading/step-heading.com
     redicrectLink="/plan"
     [billingType]="billingType" 
     [optionalItems]="addons"
-    />`,
+    />
+    `,
   styleUrl: './summary.component.scss',
 })
 export class SummaryComponent implements OnInit {
