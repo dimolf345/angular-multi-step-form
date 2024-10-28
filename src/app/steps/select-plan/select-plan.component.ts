@@ -50,7 +50,7 @@ export class SelectPlanComponent implements OnInit {
 
   form!: FormGroup<IPlanInfo>;
   stepInfo!: IHeaderText;
-  selectedPlan: number | undefined = 1;
+  selectedPlan: number | undefined;
 
   ngOnInit(): void {
     if (this.stepName()) {
@@ -76,6 +76,11 @@ export class SelectPlanComponent implements OnInit {
   setPlan(id: number | number[]) {
     if (typeof id == 'number') {
       const selectedPlan = this.data.find((p) => p.id == id);
+
+      if (selectedPlan) {
+        this.#formService.selectedPlan = selectedPlan;
+      }
+
       const { basePlan, price, billingType } = this.form.controls;
       basePlan.setValue(id, { emitEvent: false });
 

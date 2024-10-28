@@ -1,0 +1,45 @@
+<article data-testId="summary-card" class="summary-card" class="bg-lightgrey padding rounded-lg">
+    @if (mainItem()) {
+    <div data-testId="main-item" class="flex justify-between items-center">
+        <div>
+            <h3 class="text-primary font-bold flex gap-1 mb-1">
+                <span data-testId="plan-name">{{mainItem()?.label | titlecase}}</span>
+                <span data-testId="subscription-billing">({{billingType() | titlecase}})</span>
+            </h3>
+            <a data-testId="redirect-link" class="link link-secondary" [routerLink]="redirectLink()">Change</a>
+        </div>
+        <span data-testId="plan-price" class="text-primary font-bold">{{mainItem()!.price | priceString:
+            billingType()}}</span>
+    </div>
+    @if(optionalItems()) {
+    <hr class="my-4" />
+    <ul data-testId="addons-summary">
+        @for(item of optionalItems(); track $index) {
+        <li class="flex justify-between">
+            <p data-testId="addon-name" class="text-secondary">{{item.label | titlecase}}</p>
+            <span data-testId="addon-price" class="font-medium text-primary">+{{item.price | priceString:
+                billingType()}}</span>
+        </li>
+        }
+    </ul>
+    }
+    }
+
+    @if(!mainItem()){
+    <div data-testId="no-plan">
+        <h3 class="text-error mb-1">A base plan selection is required to proceed.</h3>
+        <div>
+            <a class="link link-secondary" [routerLink]="redirectLink()">Go to plan selection</a>
+        </div>
+    </div>
+    }
+
+
+</article>
+
+@if (mainItem()) {
+<div data-testId="total" class="padding flex justify-between">
+    <p class="text-secondary">Total (per {{billingType() === 'MONTHLY'? 'month': 'year'}})</p>
+    <p class="font-medium text-lg text-accent">{{totalPrice() | priceString: billingType()}}</p>
+</div>
+}

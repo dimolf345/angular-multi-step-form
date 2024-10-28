@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EBilling, FormStep, ISubscriptionForm } from '../models/form.model';
+import { ITileData } from '../models/tile-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,8 @@ export class FormService {
   readonly #PHONE_REGEX = /^\+\d(?:\s*\d){9,}$/;
 
   subscriptionForm: FormGroup<ISubscriptionForm> = this.createForm();
+  selectedPlan!: ITileData;
+  selectedAddons!: ITileData[];
 
   getStep<T>(stepName: FormStep) {
     const stepForm = this.subscriptionForm.get(stepName);
@@ -22,6 +25,27 @@ export class FormService {
 
   get billingType() {
     return this.subscriptionForm.controls.plan.controls.billingType.value;
+  }
+
+  get planInfo() {
+    if (!this.selectedPlan) {
+      return null;
+    }
+
+    return {
+      label: this.selectedPlan.title,
+      price: this.subscriptionForm.controls.plan.controls.price.value,
+    };
+  }
+
+  get addonsInfo() {
+    if (!this.selectedAddons) {
+      return null;
+    }
+    return this.selectedAddons.map((addon) => ({
+      label: addon.title,
+      price: this.billingType === EBilling.MONTHLY ? addon.monthlyPrice : addon.yearlyPrice,
+    }));
   }
 
   private createForm() {
@@ -47,7 +71,7 @@ export class FormService {
         ]),
         price: this.#fb.nonNullable.control<number>(0, [Validators.min(1), Validators.required]),
       }),
-      addons: this.#fb.nonNullable.control<number[]>([]),
+      addons: this.#fb.nonNullable.control<{ id: number; price: number }[]>([]),
     });
   }
 }

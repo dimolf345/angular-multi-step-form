@@ -66,6 +66,6 @@ describe('AddOnsComponent', () => {
       triggerClick(tile, fixture);
     });
 
-    expect(component.control.value).toStrictEqual(expectedResult);
+    expect(component.addonsIds).toStrictEqual(expectedResult);
   });
 });

@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { Location } from '@angular/common';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Location } from '@angular/common';
 import { HeaderComponent } from './header.component';
 import { MediaMatcherService } from '../../core/services/media-matcher.service';
 import { mockMediaMatcherService } from '../../../utils/mocks/media-matcher-service.mock';
@@ -9,16 +9,20 @@ import { provideRouter } from '@angular/router';
 import { routes } from '../../app.routes';
 import { provideLocationMocks } from '@angular/common/testing';
 import { By } from '@angular/platform-browser';
-// import { RouterTestingHarness } from '@angular/router/testing';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { SelectPlanComponent } from '../../steps/select-plan/select-plan.component';
+import { triggerClick } from '../../../utils/testing';
+import { LinkItemComponent } from '../../shared/link-item/link-item.component';
+import { FormService } from '../../core/services/form.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let componentRef: ComponentRef<HeaderComponent>;
   let fixture: ComponentFixture<HeaderComponent>;
-  // let routerHarness: RouterTestingHarness;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let routerHarness: RouterTestingHarness;
   let template: DebugElement;
-  // let location: Location;
+  let location: Location;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,12 +31,13 @@ describe('HeaderComponent', () => {
         { provide: MediaMatcherService, useValue: mockMediaMatcherService },
         provideRouter(routes),
         provideLocationMocks(),
+        FormService,
       ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
-    // routerHarness = await RouterTestingHarness.create();
-    // location = TestBed.inject(Location);
+    routerHarness = await RouterTestingHarness.create();
+    location = TestBed.inject(Location);
 
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
@@ -51,18 +56,18 @@ describe('HeaderComponent', () => {
     expect(linksList.children).toHaveLength(LINKS.length);
   });
 
-  // xit('should redirect to the correct step once a link-item is clicked', fakeAsync(() => {
-  //   const linksList = template.queryAll(By.directive(LinkItemComponent));
+  it('should redirect to the correct step once a link-item is clicked', fakeAsync(() => {
+    const linksList = template.queryAll(By.directive(LinkItemComponent));
 
-  //   const selectedLink = linksList[1];
+    const selectedLink = linksList[1];
 
-  //   triggerClick(selectedLink, fixture);
-  //   tick();
-  //   routerHarness.detectChanges();
-  //   expect(location.path()).toMatch(
-  //     (selectedLink.componentInstance as LinkItemComponent).link().route,
-  //   );
-  // }));
+    triggerClick(selectedLink, fixture);
+    tick();
+    fixture.detectChanges();
+    expect(location.path()).toMatch(
+      (selectedLink.componentInstance as LinkItemComponent).link().route,
+    );
+  }));
 
   it('should change the background image based on screen width', () => {
     const navElement = template.query(By.css('nav'));

@@ -20,7 +20,7 @@ export enum EBilling {
 export interface ISubscriptionForm {
   personalInfo: FormGroup<IpersonalInfo>;
   plan: FormGroup<IPlanInfo>;
-  addons: FormControl<number[]>;
+  addons: FormControl<{ id: number; price: number }[]>;
 }
 
 export type FormStep = keyof ISubscriptionForm;
