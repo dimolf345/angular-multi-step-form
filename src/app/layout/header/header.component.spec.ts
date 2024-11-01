@@ -14,6 +14,7 @@ import { SelectPlanComponent } from '../../steps/select-plan/select-plan.compone
 import { triggerClick } from '../../../utils/testing';
 import { LinkItemComponent } from '../../shared/link-item/link-item.component';
 import { FormService } from '../../core/services/form.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -29,6 +30,7 @@ describe('HeaderComponent', () => {
       imports: [HeaderComponent, SelectPlanComponent],
       providers: [
         { provide: MediaMatcherService, useValue: mockMediaMatcherService },
+        { provide: HttpClient, useValue: {} },
         provideRouter(routes),
         provideLocationMocks(),
         FormService,

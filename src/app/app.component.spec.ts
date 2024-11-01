@@ -11,6 +11,7 @@ import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-nav
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { LINKS } from './core/models/link.model';
+import { HttpClient } from '@angular/common/http';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -22,6 +23,7 @@ describe('AppComponent', () => {
       imports: [AppComponent],
       providers: [
         { provide: MediaMatcherService, useValue: mockMediaMatcherService },
+        { provide: HttpClient, useValue: {} },
         provideRouter(routes),
         provideAnimations(),
       ],
@@ -57,9 +59,7 @@ describe('AppComponent', () => {
   });
 
   it('should display the bottom navigation component to handle the change the step', () => {
-    const bottomNavigation = template.query(
-      By.directive(BottomNavigationComponent)
-    );
+    const bottomNavigation = template.query(By.directive(BottomNavigationComponent));
     expect(bottomNavigation).toBeTruthy();
   });
 
@@ -67,12 +67,8 @@ describe('AppComponent', () => {
     const router = TestBed.inject(Router);
     jest.spyOn(router, 'navigate');
     jest.spyOn(component, 'goToStep');
-    const bottomNavigation = template.query(
-      By.directive(BottomNavigationComponent)
-    );
-    (
-      bottomNavigation.componentInstance as BottomNavigationComponent
-    ).stepChanged.emit(2);
+    const bottomNavigation = template.query(By.directive(BottomNavigationComponent));
+    (bottomNavigation.componentInstance as BottomNavigationComponent).stepChanged.emit(2);
 
     expect(component.goToStep).toHaveBeenCalledWith(2);
     fixture.detectChanges();

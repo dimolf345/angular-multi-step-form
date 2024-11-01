@@ -3,6 +3,7 @@ import { PersonalInfoComponent } from './steps/personal-info/personal-info.compo
 import { SelectPlanComponent } from './steps/select-plan/select-plan.component';
 import { AddOnsComponent } from './steps/add-ons/add-ons.component';
 import { SummaryComponent } from './steps/summary/summary.component';
+import { SuccessComponent } from './steps/summary/success/success.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,11 @@ export const routes: Routes = [
   {
     path: 'summary',
     component: SummaryComponent,
+    data: { stepNumber: 4, stepName: 'summary' },
+  },
+  {
+    path: 'summary/success',
+    component: SuccessComponent,
     data: { stepNumber: 4, stepName: 'summary' },
   },
 ];

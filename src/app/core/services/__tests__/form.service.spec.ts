@@ -3,12 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { FormService } from '../form.service';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { FormStep } from '../../models/form.model';
+import { HttpClient } from '@angular/common/http';
 
 describe('FormService', () => {
   let service: FormService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{ provide: HttpClient, useValue: {} }],
+    });
     service = TestBed.inject(FormService);
   });
 
@@ -24,9 +27,7 @@ describe('FormService', () => {
   it('the form should have all the necessary steps', () => {
     const steps: FormStep[] = ['personalInfo', 'addons', 'plan'];
     for (const step of steps) {
-      expect(
-        Object.hasOwn(service.subscriptionForm.controls, step)
-      ).toBeTruthy();
+      expect(Object.hasOwn(service.subscriptionForm.controls, step)).toBeTruthy();
     }
   });
 
