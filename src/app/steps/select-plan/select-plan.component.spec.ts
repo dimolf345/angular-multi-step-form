@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TileSelectorComponent } from '../../shared/tile-selector/tile-selector.component';
 import { triggerClick } from '../../../utils/testing';
 import { TogglerComponent } from '../../shared/toggler/toggler.component';
+import { HttpClient } from '@angular/common/http';
 
 describe('SelectPlanComponent', () => {
   let component: SelectPlanComponent;
@@ -21,6 +22,7 @@ describe('SelectPlanComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SelectPlanComponent, BrowserAnimationsModule],
       providers: [
+        { provide: HttpClient, useValue: {} },
         {
           provide: MediaMatcherService,
           useValue: mockMediaMatcherService,

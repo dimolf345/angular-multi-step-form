@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { StepHeadingComponent } from '../../shared/step-heading/step-heading.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormService } from '../../core/services/form.service';
+import { HttpClient } from '@angular/common/http';
 
 describe('PersonalInfoComponent', () => {
   let component: PersonalInfoComponent;
@@ -16,7 +17,7 @@ describe('PersonalInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PersonalInfoComponent, ReactiveFormsModule],
-      providers: [FormService],
+      providers: [{ provide: HttpClient, useValue: {} }, FormService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PersonalInfoComponent);
@@ -37,14 +38,11 @@ describe('PersonalInfoComponent', () => {
     expect(stepHeader).toBeTruthy();
 
     const title = stepHeader.query(By.css('h1'));
-    expect(
-      (title.nativeElement as HTMLHeadingElement).textContent?.trim().length
-    ).toBeTruthy();
+    expect((title.nativeElement as HTMLHeadingElement).textContent?.trim().length).toBeTruthy();
 
     const description = stepHeader.query(By.css('p'));
     expect(
-      (description.nativeElement as HTMLParagraphElement).textContent?.trim()
-        .length
+      (description.nativeElement as HTMLParagraphElement).textContent?.trim().length,
     ).toBeTruthy();
   });
 

@@ -1,6 +1,8 @@
 <app-header [links]="steps" />
 <main>
-  <form [attr.aria-label]="activeStepName">
+  <form
+    (ngSubmit)="sendForm()" 
+    [formGroup]="formService.subscriptionForm" [attr.aria-label]="activeStepName">
     <app-step-container [@routeAnimation]="activeStep">
       <router-outlet />
     </app-step-container>
@@ -8,6 +10,14 @@
       (stepChanged)="goToStep($event)" 
       [currentStep]="activeStep" 
       [totalSteps]="steps.length"
+      [enableConfirmBtn]="isFormCompleted"
       />
   </form>
 </main>
+<app-modal 
+  [showModal]="apiError()"
+  (cancelClick)="apiError.set(false)"
+  (okClick)="retry()"
+  title="Network error"
+  description="Unable to process your request. Retry?"
+  >

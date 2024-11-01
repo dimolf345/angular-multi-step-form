@@ -2,14 +2,17 @@ import { inject, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EBilling, FormStep, ISubscriptionForm } from '../models/form.model';
 import { ITileData } from '../models/tile-data.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormService {
   #fb = inject(FormBuilder);
+  #http = inject(HttpClient);
   readonly #EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   readonly #PHONE_REGEX = /^\+\d(?:\s*\d){9,}$/;
+  readonly #API_ENPOINT = 'https://httpbin.org/status';
 
   subscriptionForm: FormGroup<ISubscriptionForm> = this.createForm();
   selectedPlan!: ITileData;
@@ -46,6 +49,16 @@ export class FormService {
       label: addon.title,
       price: this.billingType === EBilling.MONTHLY ? addon.monthlyPrice : addon.yearlyPrice,
     }));
+  }
+
+  sendForm() {
+    //simulate randomly a success or an error response
+    const responses = [200, 500];
+    const responseStatus = responses[Math.floor(Math.random() * 2)];
+    //
+    return this.#http.post(`${this.#API_ENPOINT}/${responseStatus}`, this.subscriptionForm.value, {
+      observe: 'response',
+    });
   }
 
   private createForm() {

@@ -9,6 +9,7 @@ import { StepHeadingComponent } from '../../shared/step-heading/step-heading.com
 import { TileSelectorComponent } from '../../shared/tile-selector/tile-selector.component';
 import { ADDONS } from '../../core/data/addons';
 import { triggerClick } from '../../../utils/testing';
+import { HttpClient } from '@angular/common/http';
 
 describe('AddOnsComponent', () => {
   let component: AddOnsComponent;
@@ -19,7 +20,10 @@ describe('AddOnsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AddOnsComponent],
-      providers: [{ provide: MediaMatcherService, useValue: mockMediaMatcherService }],
+      providers: [
+        { provide: HttpClient, useValue: {} },
+        { provide: MediaMatcherService, useValue: mockMediaMatcherService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AddOnsComponent);
