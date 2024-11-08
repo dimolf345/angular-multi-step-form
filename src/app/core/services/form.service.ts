@@ -73,6 +73,11 @@ export class FormService {
       );
   }
 
+  resetForm() {
+    this.subscriptionForm.reset();
+    this.#submitted = false;
+  }
+
   private createForm() {
     return this.#fb.group<ISubscriptionForm>({
       personalInfo: this.#fb.group({

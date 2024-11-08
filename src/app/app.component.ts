@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
   activeStepName!: FormStep;
   isFormCompleted = false;
   isSendingForm = false;
+  isFinalPage = false;
 
   ngOnInit(): void {
     this.#router.events
@@ -64,6 +65,7 @@ export class AppComponent implements OnInit {
           this.activeStep = stepNumber;
           this.activeStepName = stepName;
           this.isFormCompleted = this.formService.subscriptionForm.valid;
+          this.isFinalPage = stepName == 'final';
         }),
       )
       .subscribe();
@@ -82,6 +84,9 @@ export class AppComponent implements OnInit {
   }
 
   sendForm() {
+    if (!this.formService.subscriptionForm.valid) {
+      return;
+    }
     this.isSendingForm = true;
     const success$ = new Subject<void>();
 
