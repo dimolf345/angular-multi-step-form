@@ -28,6 +28,7 @@ describe('PlanSummaryComponent', () => {
   let component: PlanSummaryComponent;
   let fixture: ComponentFixture<PlanSummaryComponent>;
   let componentRef: ComponentRef<PlanSummaryComponent>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let routerHarness: RouterTestingHarness;
   let template: DebugElement;
   let router: Router;
@@ -98,7 +99,6 @@ describe('PlanSummaryComponent', () => {
     expect(redirectLink).toBeTruthy();
 
     triggerClick(redirectLink, fixture);
-    routerHarness.navigateByUrl(component.redirectLink());
     tick();
     expect(router.url).toBe(component.redirectLink());
   }));

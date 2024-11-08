@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EBilling, FormStep, ISubscriptionForm } from '../models/form.model';
 import { ITileData } from '../models/tile-data.model';
 import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class FormService {
   readonly #EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   readonly #PHONE_REGEX = /^\+\d(?:\s*\d){9,}$/;
   readonly #API_ENPOINT = 'https://httpbin.org/status';
+  #submitted = false;
 
   subscriptionForm: FormGroup<ISubscriptionForm> = this.createForm();
   selectedPlan!: ITileData;
@@ -24,6 +26,10 @@ export class FormService {
       return stepForm as T;
     }
     throw new Error(`Step ${stepName} is not a valid step!`);
+  }
+
+  get hasBeenSubmitted() {
+    return this.subscriptionForm.valid && this.#submitted;
   }
 
   get billingType() {
@@ -56,9 +62,20 @@ export class FormService {
     const responses = [200, 500];
     const responseStatus = responses[Math.floor(Math.random() * 2)];
     //
-    return this.#http.post(`${this.#API_ENPOINT}/${responseStatus}`, this.subscriptionForm.value, {
-      observe: 'response',
-    });
+    return this.#http
+      .post(`${this.#API_ENPOINT}/${responseStatus}`, this.subscriptionForm.value, {
+        observe: 'response',
+      })
+      .pipe(
+        tap((res) => {
+          this.#submitted = res.ok;
+        }),
+      );
+  }
+
+  resetForm() {
+    this.subscriptionForm.reset();
+    this.#submitted = false;
   }
 
   private createForm() {

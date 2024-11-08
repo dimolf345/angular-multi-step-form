@@ -3,7 +3,8 @@ import { PersonalInfoComponent } from './steps/personal-info/personal-info.compo
 import { SelectPlanComponent } from './steps/select-plan/select-plan.component';
 import { AddOnsComponent } from './steps/add-ons/add-ons.component';
 import { SummaryComponent } from './steps/summary/summary.component';
-import { SuccessComponent } from './steps/summary/success/success.component';
+import { SuccessComponent } from './steps/success/success.component';
+import { formSubmitGuard } from './core/guards/form-submit.guard';
 
 export const routes: Routes = [
   {
@@ -34,6 +35,7 @@ export const routes: Routes = [
   {
     path: 'summary/success',
     component: SuccessComponent,
-    data: { stepNumber: 4, stepName: 'summary' },
+    data: { stepNumber: 4, stepName: 'final' },
+    canActivate: [formSubmitGuard],
   },
 ];
