@@ -9,13 +9,11 @@ import {
 import { HeaderComponent } from './layout/header/header.component';
 import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-navigation.component';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { PersonalInfoComponent } from './steps/personal-info/personal-info.component';
 import { StepContainerComponent } from './layout/step-container/step-container.component';
 import { ILink, LINKS } from './core/models/link.model';
 import { ROUTE_ANIMATIONS } from './animations';
 import { catchError, filter, finalize, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { FormStep } from './core/models/form.model';
-import { StepHeadingComponent } from './shared/step-heading/step-heading.component';
 import { FormService } from './core/services/form.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './shared/modal/modal.component';
@@ -27,9 +25,7 @@ import { ModalComponent } from './shared/modal/modal.component';
     HeaderComponent,
     BottomNavigationComponent,
     RouterOutlet,
-    PersonalInfoComponent,
     StepContainerComponent,
-    StepHeadingComponent,
     ReactiveFormsModule,
     ModalComponent,
   ],
@@ -49,6 +45,7 @@ export class AppComponent implements OnInit {
   steps: ILink[] = LINKS;
 
   apiError = signal(false);
+  errorTooltipMsg = signal('');
 
   activeStep!: number;
   activeStepName!: FormStep;
@@ -65,6 +62,9 @@ export class AppComponent implements OnInit {
           this.activeStep = stepNumber;
           this.activeStepName = stepName;
           this.isFormCompleted = this.formService.subscriptionForm.valid;
+          if (!this.isFinalPage) {
+            this.errorTooltipMsg.set(this.formService.errorMessage);
+          }
           this.isFinalPage = stepName == 'final';
         }),
       )
@@ -99,7 +99,7 @@ export class AppComponent implements OnInit {
               if (res.status === 200) {
                 this.apiError.set(false);
                 success$.next();
-                //TODO routing to final page
+                this.#router.navigate(['/', 'summary', 'success']);
               }
             }),
             catchError(() => {

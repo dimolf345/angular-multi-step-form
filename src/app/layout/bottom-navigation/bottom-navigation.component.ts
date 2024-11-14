@@ -1,23 +1,33 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, ElementRef, input, output, viewChild } from '@angular/core';
 import { ButtonComponent } from '../../shared/button/button.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-bottom-navigation',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, NgClass],
   template: `
     <div role="navigation" aria-label="Steps navigation" class="bottom-nav">
       @if (displayConfirmBtn()) {
-      <button
-        data-testId="confirm-btn"
-        type="submit"
-        custom-btn
-        variant="accent"
-        role="link"
-        [disabled]="!enableConfirmBtn()"
-      >
-        Confirm
-      </button>
+        <div
+          class="cursor-pointer"
+          [ngClass]="{
+            'tooltip': !!confirmErrorTooltip(),
+            'tooltip-secondary': !!confirmErrorTooltip(),
+          }"
+          [attr.data-tip]="confirmErrorTooltip()">
+          <button
+            data-testId="confirm-btn"
+            type="submit"
+            custom-btn
+            variant="accent"
+            role="link"
+            [disabled]="!enableConfirmBtn()"
+
+          >
+          {{enableConfirmBtn()? 'Confirm': 'Missing info'}}
+          </button>
+        </div>
       } @else {
       <button
         data-testId="next-btn"
@@ -48,7 +58,10 @@ import { ButtonComponent } from '../../shared/button/button.component';
 export class BottomNavigationComponent {
   currentStep = input.required<number>();
   totalSteps = input.required<number>();
+
+  confirmBtn = viewChild<ElementRef<HTMLDivElement>>('confirmBtn');
   enableConfirmBtn = input<boolean>(false);
+  confirmErrorTooltip = input<string>();
 
   displayBackBtn = computed(() => this.currentStep() !== 1);
   displayConfirmBtn = computed(() => this.currentStep() === this.totalSteps());

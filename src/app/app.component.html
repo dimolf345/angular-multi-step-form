@@ -1,7 +1,7 @@
 <app-header [links]="steps" />
 <main>
   <form
-    (ngSubmit)="sendForm()" 
+    (ngSubmit)="sendForm()"
     [formGroup]="formService.subscriptionForm" [attr.aria-label]="activeStepName">
 
     <app-step-container class="md:grow" [@routeAnimation]="activeStep">
@@ -9,17 +9,18 @@
     </app-step-container>
 
     @if(!isFinalPage) {
-      <app-bottom-navigation 
-        (stepChanged)="goToStep($event)" 
-        [currentStep]="activeStep" 
+      <app-bottom-navigation
+        (stepChanged)="goToStep($event)"
+        [currentStep]="activeStep"
         [totalSteps]="steps.length"
         [enableConfirmBtn]="isFormCompleted"
+        [confirmErrorTooltip]="errorTooltipMsg()"
         />
     }
   </form>
 </main>
 
-<app-modal 
+<app-modal
   [showModal]="apiError()"
   (cancelClick)="apiError.set(false)"
   (okClick)="retry()"
