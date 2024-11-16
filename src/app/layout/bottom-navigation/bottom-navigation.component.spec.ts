@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BottomNavigationComponent } from './bottom-navigation.component';
 import { ComponentRef, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { queryByTestId } from '../../../utils/testing';
 
 describe('BottomNavigationComponent', () => {
   let component: BottomNavigationComponent;
@@ -76,5 +77,20 @@ describe('BottomNavigationComponent', () => {
 
     expect(nextStepBtn).not.toBeTruthy();
     expect(confirmBtn).toBeTruthy();
+  });
+
+  it('should display the confirm btn as disabled if there are missing info', () => {
+    componentRef.setInput('currentStep', 2);
+    componentRef.setInput('totalSteps', 2);
+    componentRef.setInput('enableConfirmBtn', false);
+    fixture.detectChanges();
+
+    const confirmBtn = queryByTestId(template, 'confirm-btn');
+    expect(confirmBtn.nativeElement).toBeDisabled();
+
+    componentRef.setInput('enableConfirmBtn', true);
+    fixture.detectChanges();
+
+    expect(confirmBtn.nativeElement).toBeEnabled();
   });
 });
