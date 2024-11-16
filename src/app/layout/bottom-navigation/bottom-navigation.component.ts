@@ -1,4 +1,13 @@
-import { Component, computed, ElementRef, input, output, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  OnInit,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { NgClass } from '@angular/common';
 
@@ -12,7 +21,8 @@ import { NgClass } from '@angular/common';
         <div
           class="cursor-pointer"
           [ngClass]="{
-            'tooltip': !!confirmErrorTooltip()?.length,
+            'cursor-not-allowed': !!confirmErrorTooltip()?.length,
+            'tooltip': !isMobile() && !!confirmErrorTooltip()?.length,
             'tooltip-secondary': !!confirmErrorTooltip()?.length,
           }"
           [attr.data-tip]="errorTooltip()">
@@ -56,19 +66,25 @@ import { NgClass } from '@angular/common';
   `,
   styleUrl: './bottom-navigation.component.scss',
 })
-export class BottomNavigationComponent {
+export class BottomNavigationComponent implements OnInit {
   currentStep = input.required<number>();
   totalSteps = input.required<number>();
 
   confirmBtn = viewChild<ElementRef<HTMLDivElement>>('confirmBtn');
   enableConfirmBtn = input<boolean>(false);
   confirmErrorTooltip = input<string[]>();
-  errorTooltip = computed(() => this.confirmErrorTooltip()?.join(' - '));
+  errorTooltip = computed(() => this.confirmErrorTooltip()?.join(` - `));
 
   displayBackBtn = computed(() => this.currentStep() !== 1);
   displayConfirmBtn = computed(() => this.currentStep() === this.totalSteps());
 
   stepChanged = output<number>();
+
+  isMobile = signal(false);
+
+  ngOnInit() {
+    this.isMobile.set('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }
 
   nextStep() {
     this.stepChanged.emit(this.currentStep() + 1);
