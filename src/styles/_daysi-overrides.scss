@@ -47,3 +47,7 @@
   --togglehandleborder: 0 0 0 3px white;
   background-color: white;
 }
+
+.tooltip:hover::before {
+  @apply bg-pink text-white font-medium;
+}
