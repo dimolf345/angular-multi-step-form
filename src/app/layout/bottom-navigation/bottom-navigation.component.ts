@@ -12,10 +12,10 @@ import { NgClass } from '@angular/common';
         <div
           class="cursor-pointer"
           [ngClass]="{
-            'tooltip': !!confirmErrorTooltip(),
-            'tooltip-secondary': !!confirmErrorTooltip(),
+            'tooltip': !!confirmErrorTooltip()?.length,
+            'tooltip-secondary': !!confirmErrorTooltip()?.length,
           }"
-          [attr.data-tip]="confirmErrorTooltip()">
+          [attr.data-tip]="errorTooltip()">
           <button
             data-testId="confirm-btn"
             type="submit"
@@ -25,31 +25,32 @@ import { NgClass } from '@angular/common';
             [disabled]="!enableConfirmBtn()"
 
           >
-          {{enableConfirmBtn()? 'Confirm': 'Missing info'}}
+            {{ enableConfirmBtn() ? 'Confirm' : 'Missing info' }}
           </button>
         </div>
       } @else {
-      <button
-        data-testId="next-btn"
-        type="button"
-        custom-btn
-        variant="primary"
-        role="link"
-        (click)="nextStep()"
-      >
-        Next Step
-      </button>
-      } @if(displayBackBtn()) {
-      <button
-        data-testId="prev-btn"
-        type="button"
-        custom-btn
-        variant="outlined"
-        role="link"
-        (click)="previousStep()"
-      >
-        Go Back
-      </button>
+        <button
+          data-testId="next-btn"
+          type="button"
+          custom-btn
+          variant="primary"
+          role="link"
+          (click)="nextStep()"
+        >
+          Next Step
+        </button>
+      }
+      @if (displayBackBtn()) {
+        <button
+          data-testId="prev-btn"
+          type="button"
+          custom-btn
+          variant="outlined"
+          role="link"
+          (click)="previousStep()"
+        >
+          Go Back
+        </button>
       }
     </div>
   `,
@@ -61,7 +62,8 @@ export class BottomNavigationComponent {
 
   confirmBtn = viewChild<ElementRef<HTMLDivElement>>('confirmBtn');
   enableConfirmBtn = input<boolean>(false);
-  confirmErrorTooltip = input<string>();
+  confirmErrorTooltip = input<string[]>();
+  errorTooltip = computed(() => this.confirmErrorTooltip()?.join(' - '));
 
   displayBackBtn = computed(() => this.currentStep() !== 1);
   displayConfirmBtn = computed(() => this.currentStep() === this.totalSteps());

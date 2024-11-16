@@ -57,16 +57,17 @@ export class FormService {
     }));
   }
 
-  get errorMessage() {
+  get errorMessages() {
     const { personalInfo, plan } = this.subscriptionForm.controls;
+    const erroMessages = [];
     if (!personalInfo.valid) {
-      return 'Missing personal info';
+      erroMessages.push('Missing personal info');
     }
 
     if (!plan.valid) {
-      return 'No plan selected';
+      erroMessages.push('No plan selected');
     }
-    return '';
+    return erroMessages;
   }
 
   sendForm() {

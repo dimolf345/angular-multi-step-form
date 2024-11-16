@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   steps: ILink[] = LINKS;
 
   apiError = signal(false);
-  errorTooltipMsg = signal('');
+  errorTooltipMsg = signal<string[]>([]);
 
   activeStep!: number;
   activeStepName!: FormStep;
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
           this.activeStepName = stepName;
           this.isFormCompleted = this.formService.subscriptionForm.valid;
           if (!this.isFinalPage) {
-            this.errorTooltipMsg.set(this.formService.errorMessage);
+            this.errorTooltipMsg.set(this.formService.errorMessages);
           }
           this.isFinalPage = stepName == 'final';
         }),
