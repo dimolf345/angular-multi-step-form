@@ -3,16 +3,14 @@ import { FormService } from '../../core/services/form.service';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormStep, IpersonalInfo } from '../../core/models/form.model';
 import { StepHeadingComponent } from '../../shared/step-heading/step-heading.component';
-import {
-  IHeaderText,
-  STEP_HEADERS,
-} from '../../shared/step-heading/steps-headers';
+import { IHeaderText, STEP_HEADERS } from '../../shared/step-heading/steps-headers';
 import { InputComponent } from '../../shared/input/input.component';
+import { StepContainerComponent } from '../../layout/step-container/step-container.component';
 
 @Component({
   selector: 'app-personal-info',
   standalone: true,
-  imports: [StepHeadingComponent, InputComponent, ReactiveFormsModule],
+  imports: [StepHeadingComponent, InputComponent, ReactiveFormsModule, StepContainerComponent],
   templateUrl: './personal-info.component.html',
   styleUrl: './personal-info.component.scss',
 })
@@ -24,9 +22,7 @@ export class PersonalInfoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.stepName()) {
-      this.form = this.#formService.getStep<FormGroup<IpersonalInfo>>(
-        this.stepName()!
-      );
+      this.form = this.#formService.getStep<FormGroup<IpersonalInfo>>(this.stepName()!);
 
       this.stepInfo = STEP_HEADERS[this.stepName()!];
     }

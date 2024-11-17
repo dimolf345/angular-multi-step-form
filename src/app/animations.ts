@@ -10,6 +10,7 @@ import {
 } from '@angular/animations';
 
 const fadeInRight: AnimationMetadata[] = [
+  // transition('* => next', [
   query(':enter, :leave', style({ position: 'absolute', width: '100%' }), {
     optional: true,
   }),
@@ -17,20 +18,22 @@ const fadeInRight: AnimationMetadata[] = [
     query(
       ':enter',
       [
-        style({ transform: 'translateX(25%)', opacity: 0, zIndex: -1 }),
-        animate('.3s ease-out', style({ transform: 'translateX(0%)', opacity: 1, zIndex: 1 })),
+        style({ transform: 'translateX(50px)', opacity: 0, zIndex: -1 }),
+        animate('.3s ease-out', style({ transform: 'translateX(0)', opacity: 1, zIndex: 1 })),
       ],
       {
         optional: true,
       },
     ),
-    query(':leave', [style({ transform: 'translateX(0%)', opacity: 0 })], {
+    query(':leave:not(no-animation)', [style({ transform: 'translateX(0)', opacity: 0 })], {
       optional: true,
     }),
   ]),
+  // ]),
 ];
 
 const fadeInLeft: AnimationMetadata[] = [
+  // transition('* => previous', [
   query(':enter, :leave', style({ position: 'absolute', width: '100%' }), {
     optional: true,
   }),
@@ -38,8 +41,8 @@ const fadeInLeft: AnimationMetadata[] = [
     query(
       ':enter',
       [
-        style({ transform: 'translateX(-25%)' }),
-        animate('.3s ease-out', style({ transform: 'translateX(0%)' })),
+        style({ transform: 'translateX(-50px)', opacity: 0, zIndex: -1 }),
+        animate('.3s ease-out', style({ transform: 'translateX(0)', opacity: 1, zIndex: 1 })),
       ],
       {
         optional: true,
@@ -49,6 +52,7 @@ const fadeInLeft: AnimationMetadata[] = [
       optional: true,
     }),
   ]),
+  // ]),
 ];
 
 export const fadeInFromTop = [

@@ -5,20 +5,23 @@ import { FormGroup } from '@angular/forms';
 import { PlanSummaryComponent } from '../../shared/plan-summary/plan-summary.component';
 import { IHeaderText, STEP_HEADERS } from '../../shared/step-heading/steps-headers';
 import { StepHeadingComponent } from '../../shared/step-heading/step-heading.component';
+import { StepContainerComponent } from '../../layout/step-container/step-container.component';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [PlanSummaryComponent, StepHeadingComponent],
-  template: ` 
-  <app-step-heading  [headerText]="stepInfo" />
-  <app-plan-summary 
-    [mainItem]="mainPlan"  
-    redicrectLink="/plan"
-    [billingType]="billingType" 
-    [optionalItems]="addons"
-    />
-    `,
+  imports: [PlanSummaryComponent, StepHeadingComponent, StepContainerComponent],
+  template: `
+    <app-step-container class="md:grow">
+      <app-step-heading [headerText]="stepInfo" />
+      <app-plan-summary
+        [mainItem]="mainPlan"
+        redirectLink="/plan"
+        [billingType]="billingType"
+        [optionalItems]="addons"
+      />
+    </app-step-container>
+  `,
   styleUrl: './summary.component.scss',
 })
 export class SummaryComponent implements OnInit {

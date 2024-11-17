@@ -7,22 +7,28 @@ import { IHeaderText, STEP_HEADERS } from '../../shared/step-heading/steps-heade
 import { StepHeadingComponent } from '../../shared/step-heading/step-heading.component';
 import { ITileData } from '../../core/models/tile-data.model';
 import { ADDONS } from '../../core/data/addons';
+import { StepContainerComponent } from '../../layout/step-container/step-container.component';
 
 @Component({
   selector: 'app-add-ons',
   standalone: true,
-  imports: [TileSelectorComponent, ReactiveFormsModule, StepHeadingComponent],
-  template: ` 
-    <ng-container>
+  imports: [
+    TileSelectorComponent,
+    ReactiveFormsModule,
+    StepHeadingComponent,
+    StepContainerComponent,
+  ],
+  template: `
+    <app-step-container class="md:grow">
       <app-step-heading  [headerText]="stepInfo"/>
-      <app-tile-selector 
+      <app-tile-selector
         (itemsSelected)="updateAddons($event)"
         checkboxVariant
-        [tileData]="data" 
+        [tileData]="data"
         [billingType]="billingType"
         [initialSelected]="addonsIds"
         />
-  </ng-container>
+  </app-step-container>
 
   `,
 })

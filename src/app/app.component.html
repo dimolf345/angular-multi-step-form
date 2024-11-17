@@ -2,14 +2,16 @@
 <main>
   <form
     (ngSubmit)="sendForm()"
-    [formGroup]="formService.subscriptionForm" [attr.aria-label]="activeStepName">
-
-    <app-step-container class="md:grow" [@routeAnimation]="activeStep">
+    [formGroup]="formService.subscriptionForm"
+    [attr.aria-label]="activeStepName"
+  >
+    <div class="relative" [@routeAnimation]="activeStep">
       <router-outlet />
-    </app-step-container>
+    </div>
 
     @if(!isFinalPage) {
       <app-bottom-navigation
+        class="no-animation"
         (stepChanged)="goToStep($event)"
         [currentStep]="activeStep"
         [totalSteps]="steps.length"

@@ -1,20 +1,20 @@
-<ng-container [formGroup]="form">
-  <app-step-heading [headerText]="stepInfo" /> 
-  
-  <app-input 
+<app-step-container class="pb-0" [formGroup]="form">
+  <app-step-heading [headerText]="stepInfo" />
+
+  <app-input
     data-testId="nameInput"
-    formControlName="name" 
-    class="mb-4 md:mb-6" 
-    label="name" 
+    formControlName="name"
+    class="mb-4 md:mb-6"
+    label="name"
     placeholder="e.g. Stephen King"
     errorMessages="This field is required (at least 2 chars)"
     debounceTime="200"
     />
 
-  <app-input 
+  <app-input
     data-testId="emailInput"
     formControlName="email"
-    class="mb-4 md:mb-6" 
+    class="mb-4 md:mb-6"
     label="email address"
     placeholder="e.g. stephenking@lorem.com"
     [errorMessages]="{
@@ -24,10 +24,10 @@
     debounceTime="400"
     />
 
-  <app-input 
+  <app-input
     data-testId="phoneInput"
-    formControlName="phone" 
-    label="phone number" 
-    placeholder="e.g. +1 234 567 890" 
+    formControlName="phone"
+    label="phone number"
+    placeholder="e.g. +1 234 567 890"
     />
-</ng-container>
+</app-step-container>

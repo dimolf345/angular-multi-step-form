@@ -10,25 +10,32 @@ import { IHeaderText, STEP_HEADERS } from '../../shared/step-heading/steps-heade
 import { TogglerComponent } from '../../shared/toggler/toggler.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, tap } from 'rxjs';
+import { StepContainerComponent } from '../../layout/step-container/step-container.component';
 
 @Component({
   selector: 'app-select-plan',
   standalone: true,
-  imports: [TileSelectorComponent, StepHeadingComponent, ReactiveFormsModule, TogglerComponent],
+  imports: [
+    TileSelectorComponent,
+    StepContainerComponent,
+    StepHeadingComponent,
+    ReactiveFormsModule,
+    TogglerComponent,
+  ],
   template: `
-  <div [formGroup]="form" class="flex flex-col gap-2">
+  <app-step-container [formGroup]="form" class="flex flex-col gap-2">
     @let billingType = form.get('billingType')!.value;
 
     <app-step-heading [headerText]="stepInfo"/>
-    <app-tile-selector 
-      (itemsSelected)="setPlan($event)" 
+    <app-tile-selector
+      (itemsSelected)="setPlan($event)"
       [initialSelected]="selectedPlan"
-      [tileData]="data" 
+      [tileData]="data"
       [billingType]="billingType"
       [showExtra]="billingType === billings.YEARLY"
       />
     <app-toggler formControlName="billingType" trueLabel="Yearly" falseLabel="Monthly" />
-  </div>`,
+  </app-step-container>`,
   styleUrl: './select-plan.component.scss',
 })
 export class SelectPlanComponent implements OnInit {
