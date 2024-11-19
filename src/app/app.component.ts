@@ -8,8 +8,7 @@ import {
 } from '@angular/core';
 import { HeaderComponent } from './layout/header/header.component';
 import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-navigation.component';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { StepContainerComponent } from './layout/step-container/step-container.component';
+import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { ILink, LINKS } from './core/models/link.model';
 import { ROUTE_ANIMATIONS } from './animations';
 import { catchError, filter, finalize, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
@@ -17,6 +16,9 @@ import { FormStep } from './core/models/form.model';
 import { FormService } from './core/services/form.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './shared/modal/modal.component';
+import { LoadingSpinnerComponent } from './shared/spinner/spinner.component';
+import { ProjectInfoComponent } from './shared/project-info/project-info.component';
+import { FormStateService } from './core/services/form-state.service';
 
 @Component({
   selector: 'app-root',
@@ -25,9 +27,10 @@ import { ModalComponent } from './shared/modal/modal.component';
     HeaderComponent,
     BottomNavigationComponent,
     RouterOutlet,
-    StepContainerComponent,
+    LoadingSpinnerComponent,
     ReactiveFormsModule,
     ModalComponent,
+    ProjectInfoComponent,
   ],
   animations: [ROUTE_ANIMATIONS],
   templateUrl: './app.component.html',
@@ -36,26 +39,31 @@ import { ModalComponent } from './shared/modal/modal.component';
 })
 export class AppComponent implements OnInit {
   routerOutlet = viewChild(RouterOutlet);
-
-  #router = inject(Router);
-  #apiCallTrigger$ = new Subject<void>();
-
   formService = inject(FormService);
-
   steps: ILink[] = LINKS;
-
   apiError = signal(false);
   errorTooltipMsg = signal<string[]>([]);
-
   activeStep!: number;
   activeStepName!: FormStep;
   isFormCompleted = false;
-  isSendingForm = false;
-  isFinalPage = false;
+  isSendingForm = signal(false);
+  isFinalPage = signal(false);
+  #router = inject(Router);
+  #stateService = inject(FormStateService);
+  #apiCallTrigger$ = new Subject<void>();
 
   ngOnInit(): void {
+    const savedFormData = this.#stateService.restoreState();
+    this.formService.subscriptionForm.patchValue(savedFormData);
+
     this.#router.events
       .pipe(
+        //Before going to the next route, save the data from the current step
+        tap((nav) => {
+          if (nav instanceof NavigationStart) {
+            this.#stateService.saveState(this.formService.subscriptionForm.value);
+          }
+        }),
         filter((nav) => nav instanceof NavigationEnd),
         tap(() => {
           const { stepNumber, stepName } = this.routerOutlet()!.activatedRouteData;
@@ -65,7 +73,7 @@ export class AppComponent implements OnInit {
           if (!this.isFinalPage) {
             this.errorTooltipMsg.set(this.formService.errorMessages);
           }
-          this.isFinalPage = stepName == 'final';
+          this.isFinalPage.set(stepName == 'final');
         }),
       )
       .subscribe();
@@ -87,7 +95,7 @@ export class AppComponent implements OnInit {
     if (!this.formService.subscriptionForm.valid) {
       return;
     }
-    this.isSendingForm = true;
+    this.isSendingForm.set(true);
     const success$ = new Subject<void>();
 
     this.#apiCallTrigger$
@@ -106,7 +114,9 @@ export class AppComponent implements OnInit {
               this.apiError.set(true);
               return of(null);
             }),
-            finalize(() => (this.isSendingForm = false)),
+            finalize(() => {
+              this.isSendingForm.set(false);
+            }),
           ),
         ),
       )

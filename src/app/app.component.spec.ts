@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HeaderComponent } from './layout/header/header.component';
-import { StepContainerComponent } from './layout/step-container/step-container.component';
-import { provideRouter, Router, RouterOutlet } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { mockMediaMatcherService } from '../utils/mocks/media-matcher-service.mock';
 import { MediaMatcherService } from './core/services/media-matcher.service';
 import { BottomNavigationComponent } from './layout/bottom-navigation/bottom-navigation.component';
@@ -12,8 +11,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { LINKS } from './core/models/link.model';
 import { HttpClient } from '@angular/common/http';
+import { queryByTestId } from '../utils/testing';
+import { FormStateService } from './core/services/form-state.service';
 
-describe.skip('AppComponent', () => {
+describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let template: DebugElement;
@@ -27,11 +28,13 @@ describe.skip('AppComponent', () => {
         provideRouter(routes),
         provideAnimations(),
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     template = fixture.debugElement;
+    fixture.detectChanges();
   });
 
   it('should create the app', () => {
@@ -50,17 +53,15 @@ describe.skip('AppComponent', () => {
     expect(form).toBeTruthy();
   });
 
-  it('should display a step wrapper that injects the router outlet', () => {
-    const stepContainer = template.query(By.directive(StepContainerComponent));
-    expect(stepContainer).toBeTruthy();
-    expect(stepContainer.children.length).toBeGreaterThanOrEqual(1);
-    const outlet = stepContainer.query(By.directive(RouterOutlet));
-    expect(outlet).toBeTruthy();
-  });
-
   it('should display the bottom navigation component if the step is not the final one', () => {
-    const bottomNavigation = template.query(By.directive(BottomNavigationComponent));
-    expect(bottomNavigation).toBeTruthy();
+    const bottomNavigationVisible = queryByTestId(template, 'bottom-nav');
+    expect(bottomNavigationVisible).toBeTruthy();
+
+    component.isFinalPage.set(true);
+    fixture.detectChanges(true);
+
+    const bottomNavHidden = queryByTestId(template, 'bottom-nav');
+    expect(bottomNavHidden).toBeFalsy();
   });
 
   it('should change the step if the event from the bottom navigation is triggered', () => {
@@ -74,5 +75,35 @@ describe.skip('AppComponent', () => {
     fixture.detectChanges();
     const expectedRoute = LINKS[1].route;
     expect(router.navigate).toHaveBeenCalledWith([expectedRoute]);
+  });
+
+  it('should display a loading spinner when the app is simulating sending data', () => {
+    const noSpinner = queryByTestId(template, 'spinner');
+    expect(noSpinner).toBeFalsy();
+
+    component.isSendingForm.set(true);
+    fixture.detectChanges();
+
+    const spinner = queryByTestId(template, 'spinner');
+    expect(spinner).toBeTruthy();
+  });
+
+  it('should call restoreState from FormStateService on initialization', () => {
+    const stateService = TestBed.inject(FormStateService);
+    jest.spyOn(stateService, 'restoreState');
+    component.ngOnInit();
+    expect(stateService.restoreState).toHaveBeenCalled();
+  });
+
+  it('should call saveState from FormStateService on NavigationStart event', () => {
+    const stateService = TestBed.inject(FormStateService);
+    jest.spyOn(stateService, 'saveState');
+    const formValue = { personalInfo: { name: 'test' } };
+    component.formService.subscriptionForm.patchValue(formValue);
+
+    const router = TestBed.inject(Router);
+    router.navigate(['/', 'plan']);
+    expect(stateService.saveState).toHaveBeenCalled();
+    expect(stateService.restoreState()).not.toBeNull();
   });
 });
