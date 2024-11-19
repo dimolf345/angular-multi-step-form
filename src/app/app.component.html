@@ -1,5 +1,10 @@
+@if(isSendingForm()) {
+<app-loading-spinner data-testId="spinner" />
+}
+
 <app-header [links]="steps" />
-<main>
+<main class="relative">
+
   <form
     (ngSubmit)="sendForm()"
     [formGroup]="formService.subscriptionForm"
@@ -9,8 +14,9 @@
       <router-outlet />
     </div>
 
-    @if(!isFinalPage) {
+    @if(!isFinalPage()) {
       <app-bottom-navigation
+        data-testId="bottom-nav"
         class="no-animation"
         (stepChanged)="goToStep($event)"
         [currentStep]="activeStep"
@@ -18,6 +24,8 @@
         [enableConfirmBtn]="isFormCompleted"
         [confirmErrorTooltip]="errorTooltipMsg()"
         />
+    } @else {
+      <app-project-info/>
     }
   </form>
 </main>
