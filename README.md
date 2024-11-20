@@ -32,7 +32,8 @@ Users should be able to:
   - A step is submitted, but no selection has been made
 
 ### Screenshot
-[](./src/assets/images/screenshot.png)
+
+![website-preview](./screenshot.png)
 
 ### Built with
 - Angular v. 18
