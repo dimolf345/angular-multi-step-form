@@ -24,3 +24,9 @@ export interface ISubscriptionForm {
 }
 
 export type FormStep = keyof ISubscriptionForm;
+
+export interface ISubscription {
+  personalInfo: { name: string; email: string; phone: string };
+  plan: { basePlan: number | null; billingType: EBilling; price: number };
+  addons: { id: number; price: number }[];
+}

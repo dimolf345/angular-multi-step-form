@@ -12,6 +12,7 @@ import { routes } from './app.routes';
 import { LINKS } from './core/models/link.model';
 import { HttpClient } from '@angular/common/http';
 import { queryByTestId } from '../utils/testing';
+import { FormStateService } from './core/services/form-state.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -85,5 +86,24 @@ describe('AppComponent', () => {
 
     const spinner = queryByTestId(template, 'spinner');
     expect(spinner).toBeTruthy();
+  });
+
+  it('should call restoreState from FormStateService on initialization', () => {
+    const stateService = TestBed.inject(FormStateService);
+    jest.spyOn(stateService, 'restoreState');
+    component.ngOnInit();
+    expect(stateService.restoreState).toHaveBeenCalled();
+  });
+
+  it('should call saveState from FormStateService on NavigationStart event', () => {
+    const stateService = TestBed.inject(FormStateService);
+    jest.spyOn(stateService, 'saveState');
+    const formValue = { personalInfo: { name: 'test' } };
+    component.formService.subscriptionForm.patchValue(formValue);
+
+    const router = TestBed.inject(Router);
+    router.navigate(['/', 'plan']);
+    expect(stateService.saveState).toHaveBeenCalled();
+    expect(stateService.restoreState()).not.toBeNull();
   });
 });
