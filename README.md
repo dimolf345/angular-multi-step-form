@@ -1,6 +1,7 @@
 # Frontend Mentor - Multi-step form solution
 
 This is a solution to the [Multi-step form challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/multistep-form-YVAnSdqQBJ). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+Live Website: [Multi-step form](https://angular-multi-step-form.netlify.app/)
 
 ## Table of contents
 
@@ -11,12 +12,8 @@ This is a solution to the [Multi-step form challenge on Frontend Mentor](https:/
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -35,26 +32,23 @@ Users should be able to:
   - A step is submitted, but no selection has been made
 
 ### Screenshot
-
-### Links
-
-## My process
+[](/home/luca/WebstormProjects/angular-multi-step-form/src/assets/images/screenshot.png)
 
 ### Built with
+- Angular v. 18
+- TailwindCSS
+- Daisy UI
+- Jest as testing framework
 
 ### What I learned
+In this project I learnt how to use new Angular functionalities and how to structure a web-app that is a little more than a base app.
 
-### Continued development
+I also experimented with TailwindCSS and Daisy UI, which are two libraries that I never used before.
+I tried to enhance code readability and maintainability by using Husky as a pre-commit hook and Jest as a testing framework.
 
-### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
+- Website - [Luca Di Molfetta](https://www.linkedin.com/in/luca-di-molfetta/)
+- Frontend Mentor - [@dimolf345](https://www.frontendmentor.io/profile/dimolf345)
 
-## Acknowledgments
