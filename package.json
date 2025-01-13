@@ -34,7 +34,7 @@
     "@angular/compiler-cli": "^18.2.1",
     "@cypress/schematic": "^2.5.2",
     "@tailwindcss/typography": "^0.5.15",
-    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/jest-dom": "^6.6.3",
     "@types/jest": "^29.5.14",
     "@types/node": "^20.14.9",
     "angular-eslint": "18.0.1",
